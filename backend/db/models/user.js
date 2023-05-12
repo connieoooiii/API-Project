@@ -44,7 +44,6 @@ module.exports = (sequelize, DataTypes) => {
           len: [1, 50],
           isAlpha: true,
         },
-        defaultValue: "",
       },
       lastName: {
         type: DataTypes.STRING,
@@ -53,7 +52,6 @@ module.exports = (sequelize, DataTypes) => {
           len: [1, 50],
           isAlpha: true,
         },
-        defaultValue: "",
       },
     },
     {
