@@ -1,6 +1,8 @@
 CloudBnB
+
 Database Schema Design
-<insert database schema design here>
+
+[db-schema:]./images/airbnb_dbdiagram.png
 
 API Documentation
 USER AUTHENTICATION/AUTHORIZATION
