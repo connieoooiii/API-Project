@@ -37,6 +37,24 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 50],
+          isAlpha: true,
+        },
+        defaultValue: "",
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 50],
+          isAlpha: true,
+        },
+        defaultValue: "",
+      },
     },
     {
       sequelize,
