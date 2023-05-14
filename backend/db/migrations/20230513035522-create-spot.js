@@ -5,10 +5,11 @@ if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA; // define your schema in options object
 }
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable(
-      "Users",
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable(
+      "Spots",
       {
         id: {
           allowNull: false,
@@ -16,26 +17,44 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        firstName: {
-          type: Sequelize.STRING(50),
+        ownerId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: {
+            model: "Users",
+          },
+        },
+        address: {
+          type: Sequelize.STRING,
           allowNull: false,
         },
-        lastName: {
-          type: Sequelize.STRING(50),
+        city: {
+          type: Sequelize.STRING,
           allowNull: false,
         },
-        username: {
-          type: Sequelize.STRING(30),
+        state: {
+          type: Sequelize.STRING(2),
           allowNull: false,
-          unique: true,
         },
-        email: {
-          type: Sequelize.STRING(256),
+        country: {
+          type: Sequelize.STRING,
           allowNull: false,
-          unique: true,
         },
-        hashedPassword: {
-          type: Sequelize.STRING.BINARY,
+        lat: {
+          type: Sequelize.DECIMAL(10, 7),
+        },
+        lng: {
+          type: Sequelize.DECIMAL(10, 7),
+        },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        description: {
+          type: Sequelize.STRING,
+        },
+        price: {
+          type: Sequelize.DECIMAL,
           allowNull: false,
         },
         createdAt: {
@@ -52,10 +71,8 @@ module.exports = {
       options
     );
   },
-  down: async (queryInterface, Sequelize) => {
-    options.tableName = "Users";
+  async down(queryInterface, Sequelize) {
+    options.tableName = "Spots";
     return queryInterface.dropTable(options);
   },
 };
-
-//npx sequelize-cli model:generate --name ReviewImage --attributes reviewId:integer,url:string
