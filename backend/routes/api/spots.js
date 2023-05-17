@@ -44,6 +44,62 @@ const spotAvgPreview = (spots) => {
 
   return spotsArr;
 };
+
+//get details of a spot from an id
+router.get("/:spotId", async (req, res) => {
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId, {
+    include: [
+      {
+        model: SpotImage,
+        attributes: ["id", "url", "preview"],
+      },
+      {
+        model: User,
+        as: "Owner",
+        attributes: ["id", "firstName", "lastName"],
+      },
+      {model: Review},
+    ],
+  });
+
+  if (!spot) return res.status(404).json({message: "Spot couldn't be found"});
+
+  const spotJson = spot.toJSON();
+  spotJson.numReviews = spot.Reviews.length;
+
+  const avgStarRating = (
+    spotJson.Reviews.reduce((sum, review) => sum + review.stars, 0) /
+    spot.Reviews.length
+  ).toFixed(1);
+
+  spotJson.avgStarRating = spot.Reviews.length ? avgStarRating : null;
+
+  delete spotJson.Reviews;
+
+  const updatedSpotJson = {
+    id: spotJson.id,
+    ownerId: spotJson.ownerId,
+    address: spotJson.address,
+    city: spotJson.city,
+    state: spotJson.state,
+    country: spotJson.country,
+    lat: spotJson.lat,
+    lng: spotJson.lng,
+    name: spotJson.name,
+    description: spotJson.description,
+    price: spotJson.price,
+    createdAt: spotJson.createdAt,
+    updatedAt: spotJson.updatedAt,
+    numReviews: spotJson.numReviews,
+    avgStarRating: spotJson.avgStarRating,
+    SpotImages: spotJson.SpotImages,
+    Owner: spotJson.Owner,
+  };
+
+  return res.json(updatedSpotJson);
+});
+
 //get all spots
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll({
