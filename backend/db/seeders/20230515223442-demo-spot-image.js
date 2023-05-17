@@ -19,12 +19,12 @@ const images = [
   {
     spotId: 3,
     url: "https://www.example.com/images/random-image2.png",
-    preview: false,
+    preview: true,
   },
   {
     spotId: 4,
     url: "https://www.example.com/images/random-photo3.jpeg",
-    preview: false,
+    preview: true,
   },
 ];
 
