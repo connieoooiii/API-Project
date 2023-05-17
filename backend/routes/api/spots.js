@@ -1,20 +1,70 @@
 const express = require("express");
 const {Op} = require("sequelize");
 const {setTokenCookie, requireAuth} = require("../../utils/auth");
-const {User, Spot, SpotImage} = require("../../db/models");
+const {User, Spot, SpotImage, Review} = require("../../db/models");
 
 const {check} = require("express-validator");
 const {handleValidationErrors} = require("../../utils/validation");
+const {all} = require("./spots");
 
 const router = express.Router();
 
+const spotAvgPreview = (spots) => {
+  let spotsArr = [];
+
+  for (let spot of spots) {
+    spotsArr.push(spot.toJSON());
+  }
+
+  for (let spot of spotsArr) {
+    let sum = 0;
+    spot.Reviews.forEach((review) => {
+      sum += review.stars;
+    });
+    //console.log("this is spot review !!!!!!!" + spot.Reviews);
+    //console.log("@@@@@" + sum);
+    spot.avgRating = sum / spot.Reviews.length;
+
+    delete spot.Reviews;
+  }
+
+  for (let spot of spotsArr) {
+    //console.log("#### spot.SpotImages" + spot.SpotImages);
+    for (let image of spot.SpotImages) {
+      if (image.preview === true) {
+        spot.previewImage = image.url;
+      }
+    }
+    if (!spot.previewImage) {
+      spot.previewImage = "No preview image found";
+    }
+
+    delete spot.SpotImages;
+  }
+
+  return spotsArr;
+};
 //get all spots
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll({
-    include: [{model: SpotImage}],
+    include: [{model: Review}, {model: SpotImage}],
   });
 
-  return res.json(spots);
+  const Spots = spotAvgPreview(spots);
+
+  return res.json({Spots});
+});
+
+//get all spots owner by the current user
+router.get("/current", requireAuth, async (req, res) => {
+  const userSpots = await Spot.findAll({
+    where: {ownerId: req.user.id},
+    include: [{model: Review}, {model: SpotImage}],
+  });
+
+  const Spots = spotAvgPreview(userSpots);
+
+  return res.json({Spots});
 });
 
 //create a spot
