@@ -171,6 +171,47 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
   return res.json(newSpotImage);
 });
 
+//create a review for a spot based on spot's id
+router.post("/:spotId/reviews", requireAuth, async (req, res) => {
+  const {review, stars} = req.body;
+  const {user} = req;
+
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) res.status(404).json({message: "Spot couldn't be found"});
+
+  const userReview = await Review.findOne({
+    where: {
+      spotId: spotId,
+      userId: user.id,
+    },
+  });
+  if (userReview)
+    res.status(500).json({message: "User already has a review for this spot"});
+
+  const reviewError = {
+    message: "Bad Request",
+    errors: {},
+  };
+
+  if (!review) reviewError.errors.review = "Review text is required";
+  if (!stars || stars < 1 || stars > 5)
+    reviewError.errors.stars = "Stars must be an integer from 1 to 5";
+
+  if (Object.keys(reviewError.errors)) return res.status(400).json(reviewError);
+
+  const newReview = await Review.create({
+    spotId: spotId,
+    userId: user.id,
+    review,
+    stars,
+  });
+
+  return res.status(201).json(newReview);
+});
+
 //create a spot
 router.post("/", requireAuth, async (req, res) => {
   const {address, city, state, country, lat, lng, name, description, price} =
