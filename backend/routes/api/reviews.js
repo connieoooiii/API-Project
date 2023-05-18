@@ -136,7 +136,6 @@ router.get("/current", requireAuth, async (req, res) => {
 //delete an exisiting review
 router.delete("/:reviewId", requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
-  console.log(req);
 
   const deleteReview = await Review.findOne({
     where: {
