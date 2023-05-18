@@ -200,7 +200,8 @@ router.post("/:spotId/reviews", requireAuth, async (req, res) => {
   if (!stars || stars < 1 || stars > 5)
     reviewError.errors.stars = "Stars must be an integer from 1 to 5";
 
-  if (Object.keys(reviewError.errors)) return res.status(400).json(reviewError);
+  if (Object.keys(reviewError.errors).length > 0)
+    return res.status(400).json(reviewError);
 
   const newReview = await Review.create({
     spotId: spotId,
