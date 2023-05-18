@@ -305,6 +305,7 @@ router.put("/:spotId", requireAuth, async (req, res) => {
   return res.status(200).json(spot);
 });
 
+//delete a spot
 router.delete("/:spotId", requireAuth, async (req, res) => {
   const spotId = req.params.spotId;
 
