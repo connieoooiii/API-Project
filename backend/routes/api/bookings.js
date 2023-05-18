@@ -47,7 +47,7 @@ router.get("/current", requireAuth, async (req, res) => {
     Bookings.push(booking);
   }
 
-  console.log(Bookings);
+  //console.log(Bookings);
   Bookings.forEach((booking) => {
     booking.Spot.SpotImages.forEach((image) => {
       if (image.preview === true) {
