@@ -15,6 +15,17 @@ const {handleValidationErrors} = require("../../utils/validation");
 
 const router = express.Router();
 
+// const validateReview = [
+//   check("review")
+//     .exists({checkFalsy: true})
+//     .withMessage("Review text is required"),
+//   check("stars")
+//     .exists({checkFalsy: true})
+//     .isInt({min: 1, max: 5})
+//     .withMessage("Stars must be an integer from 1-5"),
+//   handleValidationErrors,
+// ];
+
 //add an image to a review based on the Review's id
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const {url} = req.body;
@@ -50,6 +61,37 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   delete newReviewImage.updatedAt;
 
   return res.json(newReviewImage);
+});
+
+//edit a review
+router.put("/:reviewId", requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const findReview = await Review.findByPk(reviewId);
+
+  if (!findReview || findReview.userId !== req.user.id)
+    res.status(404).json({message: "Reveiw couldn't be found"});
+
+  const {review, stars} = req.body;
+
+  const reviewError = {
+    message: "Bad Request",
+    errors: {},
+  };
+
+  if (review.length <= 0) reviewError.errors.review = "Review text is required";
+  if (!stars || stars < 1 || stars > 5)
+    reviewError.errors.stars = "Stars must be an integer from 1 to 5";
+
+  if (Object.keys(reviewError.errors).length > 0)
+    return res.status(400).json(reviewError);
+
+  await findReview.update({
+    review,
+    stars,
+  });
+
+  await findReview.save();
+  return res.status(200).json(findReview);
 });
 
 //get all reviews of current user
