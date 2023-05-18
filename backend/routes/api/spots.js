@@ -196,7 +196,7 @@ router.post("/:spotId/reviews", requireAuth, async (req, res) => {
     errors: {},
   };
 
-  if (review.length < 0) reviewError.errors.review = "Review text is required";
+  if (review.length <= 0) reviewError.errors.review = "Review text is required";
   if (!stars || stars < 1 || stars > 5)
     reviewError.errors.stars = "Stars must be an integer from 1 to 5";
 
