@@ -54,4 +54,24 @@ router.get("/current", requireAuth, async (req, res) => {
   return res.json({Reviews: allReviews});
 });
 
+//delete an exisiting review
+router.delete("/:reviewId", requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  console.log(req);
+
+  const deleteReview = await Review.findOne({
+    where: {
+      userId: req.user.id,
+      id: reviewId,
+    },
+  });
+
+  if (!deleteReview)
+    return res.status(404).json({message: "Review couldn't be found"});
+
+  await deleteReview.destroy();
+
+  res.json({message: "Successfully deleted"});
+});
+
 module.exports = router;
