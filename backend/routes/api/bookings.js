@@ -8,18 +8,24 @@ const {handleValidationErrors} = require("../../utils/validation");
 
 const router = express.Router();
 
+//delete a booking
 router.delete("/:bookingId", requireAuth, async (req, res) => {
   const bookingId = req.params.bookingId;
 
-  const deleteSpot = await Spot.findOne({
-    where: {id: bookingId, ownerId: req.user.id},
+  const deleteBooking = await Booking.findOne({
+    where: {id: bookingId, userId: req.user.id},
   });
 
-  if (!deleteSpot) {
-    return res.status(404).json({message: "Spot couldn't be found"});
+  if (!deleteBooking) {
+    return res.status(404).json({message: "Booking couldn't be found"});
   }
 
-  await deleteSpot.destroy();
+  if (new Date() > new Date(deleteBooking.startDate))
+    return res
+      .status(403)
+      .json({message: "Bookings that have been started can't be deleted"});
+
+  await deleteBooking.destroy();
 
   res.json({message: "Successfully deleted"});
 });
