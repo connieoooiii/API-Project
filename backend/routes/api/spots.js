@@ -1,7 +1,14 @@
 const express = require("express");
 const {Op} = require("sequelize");
 const {setTokenCookie, requireAuth} = require("../../utils/auth");
-const {User, Spot, SpotImage, Review, ReviewImage} = require("../../db/models");
+const {
+  User,
+  Spot,
+  SpotImage,
+  Review,
+  ReviewImage,
+  Booking,
+} = require("../../db/models");
 
 const {check} = require("express-validator");
 const {handleValidationErrors} = require("../../utils/validation");
@@ -44,6 +51,66 @@ const spotAvgPreview = (spots) => {
 
   return spotsArr;
 };
+
+//get all spots owner by the current user
+router.get("/current", requireAuth, async (req, res) => {
+  const userSpots = await Spot.findAll({
+    where: {ownerId: req.user.id},
+    include: [{model: Review}, {model: SpotImage}],
+  });
+
+  const Spots = spotAvgPreview(userSpots);
+
+  return res.json({Spots});
+});
+
+//get all bookings on  spot based on Spot's id
+router.get("/:spotId/bookings", async (req, res) => {
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) res.status(404).json({message: "Spot couldn't be found"});
+
+  if (req.user.id !== spot.ownerId) {
+    const Bookings = await spot.getBookings({
+      attributes: ["spotId", "startDate", "endDate"],
+    });
+    if (!Bookings.length)
+      return res
+        .status(404)
+        .json({message: "There are no bookings for this spot!"});
+
+    return res.json({Bookings});
+  } else {
+    const Bookings = await spot.getBookings({
+      include: {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+    });
+    if (!Bookings.length)
+      return res
+        .status(404)
+        .json({message: "There are no bookings for this spot!"});
+
+    return res.json({Bookings});
+  }
+});
+
+// if (req.user.id === spot.ownerId) {
+//   const Bookings = await spot.getBookings({
+//     include: [{ model: User, attributes: ["id", "firstName", "lastName"] }],
+//   });
+//   console.log(Bookings);
+//   return res.json({Bookings});
+// } else {
+//   const Bookings = await Booking.findAll({
+//     where: {spotId: spotId},
+//     attributes: ["spotId", "startDate", "endDate"],
+//   });
+//   return res.json({Bookings});
+// }
 
 //get all reviews by spot's id
 router.get("/:spotId/reviews", async (req, res) => {
@@ -135,18 +202,6 @@ router.get("/", async (req, res) => {
   });
 
   const Spots = spotAvgPreview(spots);
-
-  return res.json({Spots});
-});
-
-//get all spots owner by the current user
-router.get("/current", requireAuth, async (req, res) => {
-  const userSpots = await Spot.findAll({
-    where: {ownerId: req.user.id},
-    include: [{model: Review}, {model: SpotImage}],
-  });
-
-  const Spots = spotAvgPreview(userSpots);
 
   return res.json({Spots});
 });
