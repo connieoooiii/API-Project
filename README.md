@@ -26,7 +26,7 @@
 ## USER AUTHENTICATION/AUTHORIZATION
 
 ### All endpoints that require authentication
->>>>>>> dev
+
 
 All endpoints that require a current user to be logged in.
 
