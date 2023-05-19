@@ -60,6 +60,78 @@ router.get("/current", requireAuth, async (req, res) => {
   return res.json({Bookings});
 });
 
+//edit a booking
+router.put("/:bookingId", requireAuth, async (req, res) => {
+  const bookingId = req.params.bookingId;
+  const {startDate, endDate} = req.body;
+
+  const booking = await Booking.findOne({
+    where: {id: bookingId, userId: req.user.id},
+  });
+
+  if (!booking) {
+    return res.status(404).json({message: "Booking couldn't be found"});
+  }
+
+  let newStartDate = new Date(startDate).getTime();
+  let newEndDate = new Date(endDate).getTime();
+  let todayDate = new Date().getTime();
+
+  if (newEndDate <= newStartDate)
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: {
+        endDate: "endDate cannot be on or before startDate",
+      },
+    });
+
+  if (todayDate > newEndDate)
+    return res.status(403).json({message: "Past bookings can't be modified"});
+
+  const bookingError = {
+    message: "Sorry, this spot is already booked for the specified dates",
+    errors: {},
+  };
+
+  const spot = await booking.getSpot();
+  const moreBookings = await spot.getBookings({
+    where: {
+      id: {[Op.ne]: req.params.bookingId},
+    },
+  });
+
+  if (moreBookings.length) {
+    moreBookings.forEach((booking) => {
+      const start = new Date(booking.startDate);
+      const end = new Date(booking.endDate);
+
+      if (newStartDate >= start && newStartDate <= end) {
+        bookingError.errors.startDate =
+          "Start date conflicts with an existing booking";
+      }
+      if (newEndDate >= start && newEndDate <= end) {
+        bookingError.errors.endDate =
+          "End date conflicts with an existing booking";
+      }
+      if (newStartDate < start && newEndDate > end) {
+        bookingError.errors.endDate =
+          "End date conflicts with an existing booking";
+      }
+    });
+  }
+
+  if (Object.keys(bookingError.errors).length > 0)
+    return res.status(400).json(bookingError);
+
+  await booking.update({
+    startDate,
+    endDate,
+  });
+  await booking.save();
+
+  return res.json(booking);
+});
+
 //delete a booking
 router.delete("/:bookingId", requireAuth, async (req, res) => {
   const bookingId = req.params.bookingId;
