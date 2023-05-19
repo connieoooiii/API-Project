@@ -290,7 +290,7 @@ router.get("/", async (req, res) => {
 
   const Spots = spotAvgPreview(spots);
 
-  return res.json({Spots});
+  return res.json({Spots, page, size});
 });
 
 //add an image to a spot based on spot's id
