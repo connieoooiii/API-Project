@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-CloudBnB
 
-Database Schema Design
-
-[db-schema:]./images/airbnb_dbdiagram.png
-=======
-<!--!!START SILENT -->
 
 # CloudBnB
 
