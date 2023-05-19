@@ -121,7 +121,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
   }
 
   if (Object.keys(bookingError.errors).length > 0)
-    return res.status(400).json(bookingError);
+    return res.status(403).json(bookingError);
 
   await booking.update({
     startDate,
