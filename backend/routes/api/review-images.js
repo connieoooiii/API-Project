@@ -29,7 +29,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 
   const review = await Review.findByPk(reviewId);
 
-  console.log(review);
+  //console.log(review);
 
   if (review.userId === req.user.id) {
     await deleteImg.destroy();
