@@ -8,7 +8,7 @@ function Navigation({isLoaded}) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <ul>
+    <nav>
       <li>
         <NavLink exact to="/">
           Home
@@ -19,7 +19,12 @@ function Navigation({isLoaded}) {
           <ProfileButton user={sessionUser} />
         </li>
       )}
-    </ul>
+      <li>
+        <NavLink exact to="/spots/new">
+          Create a New Spot
+        </NavLink>
+      </li>
+    </nav>
   );
 }
 

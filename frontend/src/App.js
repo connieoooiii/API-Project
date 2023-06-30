@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import {Route} from "react-router-dom";
 import SpotsIndex from "./components/SpotsIndex";
+import SpotDetails from "./components/SpotDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ function App() {
             <h1>Edit Form</h1>
           </Route>
           <Route exact path="/spots/:spotId">
-            <h1>Hi from single spot</h1>
+            <h3>Spot Details</h3>
+            <SpotDetails />
           </Route>
         </Switch>
       )}
