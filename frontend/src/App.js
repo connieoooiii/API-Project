@@ -3,6 +3,8 @@ import {useDispatch} from "react-redux";
 import {Switch} from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import {Route} from "react-router-dom";
+import SpotsIndex from "./components/SpotsIndex";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,7 +16,22 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch></Switch>}
+      {isLoaded && (
+        <Switch>
+          <Route exact path="/">
+            <SpotsIndex />
+          </Route>
+          <Route exact path="/spots/new">
+            <h1>Create a new Spot</h1>
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <h1>Edit Form</h1>
+          </Route>
+          <Route exact path="/spots/:spotId">
+            <h1>Hi from single spot</h1>
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }
