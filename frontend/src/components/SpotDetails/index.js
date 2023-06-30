@@ -14,17 +14,19 @@ export default function SpotDetails() {
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
-  }, [dispatch, spotId]);
+  }, [dispatch]);
+
+  if (!spot) return null;
 
   return (
     <>
-      {/* <h3>{spot.name}</h3>
+      <h3>{spot.name}</h3>
       <div>
         Location: {spot.city} {spot.state} {spot.country}
       </div>
       <div>
         <img src={spot.SpotImages[0].url} alt="bnbpic" />
-      </div> */}
+      </div>
     </>
   );
 }
