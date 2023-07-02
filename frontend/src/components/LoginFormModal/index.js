@@ -18,7 +18,7 @@ function LoginFormModal() {
       errorsOj.credential = "Username must be at least 4 characters";
 
     if (password.length < 6)
-      errorsOj.password = "Password must be at least 6t characters";
+      errorsOj.password = "Password must be at least 6 characters";
 
     setErrors(errorsOj);
   }, [credential, password]);
@@ -34,6 +34,17 @@ function LoginFormModal() {
           setErrors(data.errors);
         }
       });
+  };
+
+  const demoUser = (e) => {
+    e.preventDefault();
+
+    const credential = "demo@user.io";
+    const password = "password";
+
+    return dispatch(sessionActions.login({credential, password})).then(
+      closeModal
+    );
   };
 
   return (
@@ -62,6 +73,7 @@ function LoginFormModal() {
         <button type="submit" disabled={Object.keys(errors).length > 0}>
           Log In
         </button>
+        <button onClick={demoUser}>Demo User</button>
       </form>
     </>
   );
