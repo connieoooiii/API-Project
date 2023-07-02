@@ -24,9 +24,7 @@ export default function SpotDetails() {
       <div>
         Location: {spot.city} {spot.state} {spot.country}
       </div>
-      <div>
-        <img src={spot.SpotImages[0].url} alt="bnbpic" />
-      </div>
+      <div>{/* <img src={spot.SpotImages[0].url} alt="bnbpic" /> */}</div>
     </>
   );
 }

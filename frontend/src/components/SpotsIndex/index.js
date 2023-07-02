@@ -18,15 +18,12 @@ export default function SpotsIndex() {
   if (!spots) return null;
 
   return (
-    <>
+    <div>
       <h3>In Spots Index</h3>
-      <ul>
-        {spots.map((spot) => (
-          <li key={spot.id}>
-            <SpotCard />
-          </li>
-        ))}
-      </ul>
-    </>
+
+      {spots.map((spot) => (
+        <SpotCard key={spot.id} spot={spot} />
+      ))}
+    </div>
   );
 }

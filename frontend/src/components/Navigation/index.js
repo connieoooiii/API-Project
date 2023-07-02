@@ -11,7 +11,7 @@ function Navigation({isLoaded}) {
     <nav>
       <li>
         <NavLink exact to="/">
-          Home
+          CloudBnB
         </NavLink>
       </li>
       {isLoaded && (
