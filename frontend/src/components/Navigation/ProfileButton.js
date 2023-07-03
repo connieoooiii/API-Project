@@ -43,14 +43,14 @@ function ProfileButton({user}) {
 
   return (
     <div>
-      <div>{user && <Link to="/spots/new">Create a New Spot</Link>}</div>
-      <button onClick={openMenu}>
+      <button className="profile-button" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
+
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
-            <li>{user.username}</li>
+          <div className="ul-div">
+            <li>Hello, {user.username}</li>
             <li>
               {user.firstName} {user.lastName}
             </li>
@@ -58,7 +58,7 @@ function ProfileButton({user}) {
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
-          </>
+          </div>
         ) : (
           <>
             <OpenModalMenuItem
@@ -74,6 +74,7 @@ function ProfileButton({user}) {
           </>
         )}
       </ul>
+      <div>{user && <Link to="/spots/new">Create a New Spot</Link>}</div>
     </div>
   );
 }
