@@ -10,11 +10,11 @@ export default function SpotDetails() {
     return state.spots[spotId];
   });
 
-  console.log("SPOT STATEE ", spot);
+  console.log("SPOT", spot);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
-  }, [dispatch]);
+  }, [dispatch, spotId]);
 
   if (!spot) return null;
 
@@ -29,13 +29,20 @@ export default function SpotDetails() {
       </div>
       <div>
         <div>
-          Hosted by {spot.Owner.firstName}, {spot.Owner.lastName}
+          Hosted by{" "}
+          {spot.Owner ? (
+            <span>
+              {spot.Owner.firstName} {spot.Owner.lastName}
+            </span>
+          ) : null}
         </div>
         <div>{spot.description}</div>
         <div>
           <div>
-            <h3>${spot.price.toFixed(2)}</h3>
-            <div>night</div>
+            <div>
+              ${spot.price.toFixed(2)} <span>night</span>
+            </div>
+
             <p>
               <i className="fa-solid fa-star"></i>{" "}
               {spot.avgRating ? spot.avgRating : "New"}

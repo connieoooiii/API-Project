@@ -57,7 +57,7 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
     const spot = await res.json();
     console.log("ONE SPOT THUNK spot from res", spot);
     dispatch(getOneSpot(spot));
-    //return spot;
+    return spot;
   } else {
     const errors = await res.json();
     console.log("inside thunk. ERRORRS".errors);
