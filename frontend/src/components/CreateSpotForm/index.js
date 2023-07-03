@@ -1,17 +1,23 @@
 import {useDebugValue, useEffect, useState} from "react";
 import "./CreateSpotForm.css";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom/cjs/react-router-dom.min";
+import {createSpotThunk} from "../../store/spotsReducer";
 
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const owner = useSelector((state) => {
+    console.log("this is session user", state.session.user);
+    return state.session.user;
+  });
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [description, setDescription] = useState("");
-  const [spotName, setSpotName] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [img1, setImg1] = useState("");
   const [img2, setImg2] = useState("");
@@ -28,7 +34,7 @@ export default function CreateSpotForm() {
     if (!address) errorsObj.address = "Address is required";
     if (!city) errorsObj.city = "City is required";
     if (!state) errorsObj.state = "State is required";
-    if (!spotName) errorsObj.spotName = "Name is required";
+    if (!name) errorsObj.name = "Name is required";
     if (!price) errorsObj.price = "Price is required";
     if (!img1) errorsObj.img1 = "Preview image is required";
 
@@ -37,9 +43,9 @@ export default function CreateSpotForm() {
 
     if (
       img1 &&
-      (!img1.endsWith(".png") ||
-        !img1.endsWith(".jpg") ||
-        !img1.endsWith(".jpeg"))
+      !img1.endsWith(".png") &&
+      !img1.endsWith(".jpg") &&
+      !img1.endsWith(".jpeg")
     )
       errorsObj.img1 = "Image URL must end in .png, .jpg, .jpeg";
 
@@ -77,7 +83,7 @@ export default function CreateSpotForm() {
     address,
     city,
     state,
-    spotName,
+    name,
     price,
     img1,
     description,
@@ -91,6 +97,67 @@ export default function CreateSpotForm() {
     e.preventDefault();
 
     setDidSubmit(true);
+    if (Object.keys(errors).length > 0) {
+      return alert("Please enter valid information to create your spot.");
+    }
+
+    const newSpot = {
+      address,
+      city,
+      state,
+      country,
+      lat: 37.76,
+      lng: -122.47,
+      name,
+      description,
+      price,
+    };
+
+    const spotImages = [];
+
+    if (img1) {
+      const img1Obj = {
+        url: img1,
+        preview: true,
+      };
+      spotImages.push(img1Obj);
+    }
+    if (img2) {
+      const img2Obj = {
+        url: img2,
+        preview: false,
+      };
+      spotImages.push(img2Obj);
+    }
+    if (img3) {
+      const img3Obj = {
+        url: img3,
+        preview: false,
+      };
+      spotImages.push(img3Obj);
+    }
+    if (img4) {
+      const img4Obj = {
+        url: img4,
+        preview: false,
+      };
+      spotImages.push(img4Obj);
+    }
+    if (img5) {
+      const img5Obj = {
+        url: img1,
+        preview: false,
+      };
+      spotImages.push(img5Obj);
+    }
+
+    console.log("spotImages", spotImages);
+
+    console.log("newSpot", newSpot);
+
+    // const dispatchedSpot = await dispatch(
+    //   createSpotThunk(newSpot, spotImages, owner)
+    // );
   };
 
   return (
@@ -113,7 +180,7 @@ export default function CreateSpotForm() {
           </p>
         </div>
         <label>Country</label>
-        {didSubmit && <p>{errors.country}</p>}
+        {didSubmit && errors.country && <p>{errors.country}</p>}
         <input
           type="text"
           placeholder="United States of America"
@@ -121,7 +188,7 @@ export default function CreateSpotForm() {
           onChange={(e) => setCountry(e.target.value)}
         />
         <label>Street Address</label>
-        {didSubmit && <p>{errors.address}</p>}
+        {didSubmit && errors.address && <p>{errors.address}</p>}
         <input
           type="text"
           placeholder="123 Main Street"
@@ -130,7 +197,7 @@ export default function CreateSpotForm() {
         />
         <div style={{border: "1px solid red"}}>
           <label>City</label>
-          {didSubmit && <p>{errors.city}</p>}
+          {didSubmit && errors.city && <p>{errors.city}</p>}
           <input
             type="text"
             placeholder="San Francisco"
@@ -138,7 +205,7 @@ export default function CreateSpotForm() {
             onChange={(e) => setCity(e.target.value)}
           />
           <label>State</label>
-          {didSubmit && <p>{errors.state}</p>}
+          {didSubmit && errors.state && <p>{errors.state}</p>}
           <input
             type="text"
             value={state}
@@ -157,7 +224,7 @@ export default function CreateSpotForm() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Please write at least 30 characters"
           />
-          {didSubmit && <p>{errors.description}</p>}
+          {didSubmit && errors.description && <p>{errors.description}</p>}
         </div>
         <div>
           <h4>Create a title for your spot</h4>
@@ -167,11 +234,11 @@ export default function CreateSpotForm() {
           </p>
           <input
             type="text"
-            value={spotName}
-            onChange={(e) => setSpotName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Name of your spot"
           />
-          {didSubmit && <p>{errors.spotName}</p>}
+          {didSubmit && errors.name && <p>{errors.name}</p>}
         </div>
         <div>
           <h4>Set a base price for your spot</h4>
@@ -185,7 +252,7 @@ export default function CreateSpotForm() {
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price per night (USD)"
           />
-          {didSubmit && <p>{errors.price}</p>}
+          {didSubmit && errors.price && <p>{errors.price}</p>}
         </div>
         <div>
           <h4>Liven up your spot with photos</h4>
@@ -197,32 +264,35 @@ export default function CreateSpotForm() {
               onChange={(e) => setImg1(e.target.value)}
               placeholder="Preview Image URL"
             />
-            {didSubmit && <p>{errors.img1}</p>}
+            {didSubmit && errors.img1 && <p>{errors.img1}</p>}
             <input
               type="url"
               value={img2}
               onChange={(e) => setImg2(e.target.value)}
               placeholder="Image URL"
             />
-
+            {didSubmit && errors.img2 && <p>{errors.img2}</p>}
             <input
               type="url"
               value={img3}
               onChange={(e) => setImg3(e.target.value)}
               placeholder="Image URL"
             />
+            {didSubmit && errors.img3 && <p>{errors.img3}</p>}
             <input
               type="url"
               value={img4}
               onChange={(e) => setImg4(e.target.value)}
               placeholder="Image URL"
             />
+            {didSubmit && errors.img4 && <p>{errors.img4}</p>}
             <input
               type="url"
               value={img5}
               onChange={(e) => setImg5(e.target.value)}
               placeholder="Image URL"
             />
+            {didSubmit && errors.img5 && <p>{errors.img5}</p>}
           </div>
         </div>
         <button className="spot-button" type="submit">
