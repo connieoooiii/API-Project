@@ -40,7 +40,7 @@ export default function SpotDetails() {
         <div>
           <div>
             <div>
-              ${spot.price.toFixed(2)} <span>night</span>
+              ${spot.price} <span>night</span>
             </div>
 
             <p>
