@@ -3,6 +3,10 @@ import {useDispatch} from "react-redux";
 import {Switch} from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import {Route} from "react-router-dom";
+import SpotsIndex from "./components/SpotsIndex";
+import SpotDetails from "./components/SpotDetails";
+import CreateSpotForm from "./components/CreateSpotForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,7 +18,23 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch></Switch>}
+      {isLoaded && (
+        <Switch>
+          <Route exact path="/">
+            <SpotsIndex />
+          </Route>
+          <Route exact path="/spots/new">
+            <CreateSpotForm />
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <h1>Edit Form</h1>
+          </Route>
+          <Route exact path="/spots/:spotId">
+            <h3>Spot Details</h3>
+            <SpotDetails />
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }
