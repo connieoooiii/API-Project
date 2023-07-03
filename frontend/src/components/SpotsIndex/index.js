@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllSpotsThunk} from "../../store/spotsReducer";
 import SpotCard from "../SpotCard";
+import "./SpotsIndex.css";
 
 export default function SpotsIndex() {
   const dispatch = useDispatch();
@@ -18,9 +19,7 @@ export default function SpotsIndex() {
   if (!spots) return null;
 
   return (
-    <div>
-      <h3>In Spots Index</h3>
-
+    <div className="spot-card">
       {spots.map((spot) => (
         <SpotCard key={spot.id} spot={spot} />
       ))}

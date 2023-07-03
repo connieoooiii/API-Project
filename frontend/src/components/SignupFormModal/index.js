@@ -13,7 +13,7 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [didSumbit, setDidSubmit] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const {closeModal} = useModal();
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.email && <p>{errors.email}</p>}
+        {didSubmit && errors.email && <p>{errors.email}</p>}
         <label>
           Username
           <input
@@ -85,7 +85,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.username && <p>{errors.username}</p>}
+        {didSubmit && errors.username && <p>{errors.username}</p>}
         <label>
           First Name
           <input
@@ -95,7 +95,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.firstName && <p>{errors.firstName}</p>}
+        {didSubmit && errors.firstName && <p>{errors.firstName}</p>}
         <label>
           Last Name
           <input
@@ -105,7 +105,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.lastName && <p>{errors.lastName}</p>}
+        {didSubmit && errors.lastName && <p>{errors.lastName}</p>}
         <label>
           Password
           <input
@@ -115,7 +115,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.password && <p>{errors.password}</p>}
+        {didSubmit && errors.password && <p>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -125,7 +125,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {didSumbit && errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {didSubmit && errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button type="submit" disabled={Object.keys(errors).length > 0}>
           Sign Up
         </button>
