@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useDispatch} from "react-redux";
+import {Link} from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
@@ -41,7 +42,8 @@ function ProfileButton({user}) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
+    <div>
+      <div>{user && <Link to="/spots/new">Create a New Spot</Link>}</div>
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
@@ -72,7 +74,7 @@ function ProfileButton({user}) {
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 
