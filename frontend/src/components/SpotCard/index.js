@@ -8,8 +8,6 @@ export default function SpotCard({spot}) {
 
   console.log("SPOTT", spot);
 
-  const spotPrice = spot.price.toFixed(2);
-
   return (
     <div className="spot-card-wrap">
       {console.log(spot)}
@@ -23,7 +21,7 @@ export default function SpotCard({spot}) {
             </div>
             <div>{spot.avgRating ? spot.avgRating.toFixed(1) : "New"}</div>
           </div>
-          <div>${spotPrice} night</div>
+          <div>${spot.price} night</div>
         </div>
       </Link>
     </div>
