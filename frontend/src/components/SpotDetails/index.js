@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getOneSpotThunk} from "../../store/spotsReducer";
+import "./SpotDetails.css";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -25,7 +26,53 @@ export default function SpotDetails() {
         <div>
           Location: {spot.city}, {spot.state}, {spot.country}
         </div>
-        <div>{/* <img src={spot.SpotImages[0].url} alt="bnbpic" /> */}</div>
+        <div className="img-container">
+          <div>
+            <img
+              className="spot-preview-img"
+              src={spot.SpotImages[0].url}
+              alt="spot image preview"
+            />
+          </div>
+          <div className="side-imgs">
+            <img
+              className="side-preview"
+              src={
+                spot.SpotImages[1]
+                  ? spot.SpotImages[1].url
+                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+              }
+              alt="img 2"
+            />
+            <img
+              className="side-preview"
+              src={
+                spot.SpotImages[2]
+                  ? spot.SpotImages[2].url
+                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+              }
+              alt="img 3"
+            />
+            <img
+              className="side-preview"
+              src={
+                spot.SpotImages[3]
+                  ? spot.SpotImages[3].url
+                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+              }
+              alt="img 4"
+            />
+            <img
+              className="side-preview"
+              src={
+                spot.SpotImages[4]
+                  ? spot.SpotImages[4].url
+                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+              }
+              alt="img 5"
+            />
+          </div>
+        </div>
       </div>
       <div>
         <div>

@@ -102,6 +102,40 @@ export const createSpotThunk = (spot, spotImages) => async (dispatch) => {
   }
 };
 
+const initialState = {};
+
+const spotsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOAD_SPOTS: {
+      console.log("inside spots reducer");
+      const spotsState = {...state};
+      action.spots.Spots.forEach((spot) => {
+        spotsState[spot.id] = spot;
+      });
+      return spotsState;
+    }
+    case GET_SPOT: {
+      console.log("SPOTS REDUCER", state);
+      const newState = {...state};
+      newState[action.spot.id] = action.spot;
+      return newState;
+      //return {...state, [action.spot.id]: action.spot};
+    }
+    case CREATE_SPOT: {
+      return {...state, [action.spot.id]: action.spot};
+    }
+    case DELETE_SPOT: {
+      const newState = {...state};
+      delete newState[action.spotId];
+      return newState;
+    }
+    default:
+      return state;
+  }
+};
+
+export default spotsReducer;
+
 // export const createSpotThunk =
 //   (spot, spotImages, owner) => async (dispatch) => {
 //     console.log("I AM INSIDE CREATE THUNK FIRST CL");
@@ -162,37 +196,3 @@ export const createSpotThunk = (spot, spotImages) => async (dispatch) => {
 //   return errors;
 // }
 //}; // not done yet
-
-const initialState = {};
-
-const spotsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOAD_SPOTS: {
-      console.log("inside spots reducer");
-      const spotsState = {...state};
-      action.spots.Spots.forEach((spot) => {
-        spotsState[spot.id] = spot;
-      });
-      return spotsState;
-    }
-    case GET_SPOT: {
-      console.log("SPOTS REDUCER", state);
-      const newState = {...state};
-      newState[action.spot.id] = action.spot;
-      return newState;
-      //return {...state, [action.spot.id]: action.spot};
-    }
-    case CREATE_SPOT: {
-      return {...state, [action.spot.id]: action.spot};
-    }
-    case DELETE_SPOT: {
-      const newState = {...state};
-      delete newState[action.spotId];
-      return newState;
-    }
-    default:
-      return state;
-  }
-};
-
-export default spotsReducer;
