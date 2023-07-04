@@ -8,10 +8,10 @@ export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const owner = useSelector((state) => {
-    console.log("this is session user", state.session.user);
-    return state.session.user;
-  });
+  // const owner = useSelector((state) => {
+  //   console.log("this is session user", state.session.user);
+  //   return state.session.user;
+  // });
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -101,6 +101,8 @@ export default function CreateSpotForm() {
       return alert("Please enter valid information to create your spot.");
     }
 
+    setErrors({});
+
     const newSpot = {
       address,
       city,
@@ -111,6 +113,11 @@ export default function CreateSpotForm() {
       name,
       description,
       price,
+      previewImage: img1,
+      img2,
+      img3,
+      img4,
+      img5,
     };
 
     const spotImages = [];
@@ -155,9 +162,21 @@ export default function CreateSpotForm() {
 
     console.log("newSpot", newSpot);
 
-    // const dispatchedSpot = await dispatch(
-    //   createSpotThunk(newSpot, spotImages, owner)
-    // );
+    const dispatchedSpot = await dispatch(createSpotThunk(newSpot, spotImages));
+
+    setCountry("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setName("");
+    setPrice("");
+    setImg1("");
+    setImg2("");
+    setImg3("");
+    setImg4("");
+    setImg5("");
+
+    if (dispatchedSpot) history.push(`/spots/${dispatchedSpot.id}`);
   };
 
   return (
