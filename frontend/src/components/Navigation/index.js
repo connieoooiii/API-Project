@@ -12,7 +12,7 @@ function Navigation({isLoaded}) {
       <li className="list">
         <div className="cloud-nav">
           <NavLink exact to="/">
-            <i class="fa-solid fa-cloud"></i>
+            <i className="fa-solid fa-cloud"></i>
           </NavLink>
         </div>
       </li>

@@ -8,6 +8,8 @@ const GET_SPOT = "spots/GET_SPOT";
 
 const DELETE_SPOT = "spots/DELETE_SPOT";
 
+const LOAD_USER_SPOTS = "spots/LOAD_USER_SPOTS";
+
 //action creators
 
 export const getAllSpots = (spots) => {
@@ -38,6 +40,13 @@ export const deleteSpot = (spotId) => {
   };
 };
 
+export const getUserSpots = (spots) => {
+  return {
+    type: LOAD_USER_SPOTS,
+    spots,
+  };
+};
+
 //Thunk Action Creator
 
 export const getAllSpotsThunk = () => async (dispatch) => {
@@ -65,76 +74,64 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
   }
 };
 
-export const deleteSpotThunk = (spotId) => async (dispatch) => {
-  const res = csrfFetch(`/api/spots/${spotId}`, {
-    method: "DELETE",
-  });
-
-  if (res.ok) {
-    dispatch(deleteSpot(spotId));
+export const getUserSpotsThunk = () => async (dispatch) => {
+  try {
+    const res = await csrfFetch("/api/spots/current");
+    if (res.ok) {
+      console.log("Yay you made it to get user spots thunk");
+      const spots = await res.json();
+      dispatch(getUserSpots(spots));
+    }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
   }
 };
 
-export const createSpotThunk =
-  (spot, spotImages, owner) => async (dispatch) => {
-    console.log("I AM INSIDE CREATE THUNK FIRST CL");
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  try {
+    const res = csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+    });
 
-    try {
-      const res = await csrfFetch("/api/spots", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(spot),
-      });
-
-      if (res.ok) {
-        console.log("I AM INSIDE CREATE THUNK");
-        const newSpot = await res.json();
-
-        const newSpotImg = [];
-
-        for (let img of spotImages) {
-          img.spotId = newSpot.id;
-
-          const imgFetch = await csrfFetch(`api/spots/${newSpot.id}/images`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(img),
-          });
-
-          if (imgFetch.ok) {
-            const newImg = await imgFetch.json();
-            newSpotImg.push(newImg);
-          }
-        }
-        newSpot.SpotImages = newSpotImg;
-
-        newSpot.owner = owner;
-
-        await dispatch(createSpot(newSpot));
-        return newSpot;
-      }
-    } catch (err) {
-      const error = await err.json();
-      console.log(error);
-      return error;
+    if (res.ok) {
+      console.log("INSIDE DELETE THUNK");
+      dispatch(deleteSpot(spotId));
     }
-    // } else {
-    //   const errors = await res.json();
-    //   console.log("inside create thunk. ERRORRS".errors);
-    //   return errors;
-    // }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
+  }
+};
 
-    // if (res.ok) {
-    //   const newSpot = await res.json();
-    //   console.log("inside create spot thunk. NEW SPOT:", newSpot);
-    //   dispatch(createSpot(newSpot));
-    //   return newSpot;
-    // } else {
-    //   const errors = await res.json();
-    //   console.log("inside create thunk. ERRORRS".errors);
-    //   return errors;
-    // }
-  }; // not done yet
+export const createSpotThunk = (spot, spotImages) => async (dispatch) => {
+  try {
+    const res = await csrfFetch("/api/spots", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(spot),
+    });
+    if (res.ok) {
+      const newSpot = await res.json();
+
+      for (let i = 0; i < spotImages.length; ++i) {
+        const imgRes = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(spotImages[i]),
+        });
+      }
+      dispatch(createSpot(newSpot));
+      return newSpot;
+    }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
+  }
+};
 
 const initialState = {};
 
@@ -155,9 +152,19 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
       //return {...state, [action.spot.id]: action.spot};
     }
-    // case CREATE_SPOT: {
-    //   return {...state, [action.spot.id]: action.spot};
-    // }
+    case LOAD_USER_SPOTS: {
+      console.log("inside load user spots reducer");
+      console.log("THIS IS STATE", state);
+      const spotsState = {};
+      console.log("THIS IS ACTION SPOTS", action.spot);
+      action.spots.Spots.forEach((spot) => {
+        spotsState[spot.id] = spot;
+      });
+      return spotsState;
+    }
+    case CREATE_SPOT: {
+      return {...state, [action.spot.id]: action.spot};
+    }
     case DELETE_SPOT: {
       const newState = {...state};
       delete newState[action.spotId];
@@ -169,3 +176,64 @@ const spotsReducer = (state = initialState, action) => {
 };
 
 export default spotsReducer;
+
+// export const createSpotThunk =
+//   (spot, spotImages, owner) => async (dispatch) => {
+//     console.log("I AM INSIDE CREATE THUNK FIRST CL");
+
+//     try {
+//       const res = await csrfFetch("/api/spots", {
+//         method: "POST",
+//         headers: {"Content-Type": "application/json"},
+//         body: JSON.stringify(spot),
+//       });
+
+//       if (res.ok) {
+//         console.log("I AM INSIDE CREATE THUNK");
+//         const newSpot = await res.json();
+
+//         const newSpotImg = [];
+
+//         for (let img of spotImages) {
+//           img.spotId = newSpot.id;
+
+//           const imgFetch = await csrfFetch(`api/spots/${newSpot.id}/images`, {
+//             method: "POST",
+//             headers: {"Content-Type": "application/json"},
+//             body: JSON.stringify(img),
+//           });
+
+//           if (imgFetch.ok) {
+//             const newImg = await imgFetch.json();
+//             newSpotImg.push(newImg);
+//           }
+//         }
+//         newSpot.SpotImages = newSpotImg;
+
+//         newSpot.owner = owner;
+
+//         await dispatch(createSpot(newSpot));
+//         return newSpot;
+//       }
+//     } catch (err) {
+//       const error = await err.json();
+//       console.log(error);
+//       return error;
+//     }
+// } else {
+//   const errors = await res.json();
+//   console.log("inside create thunk. ERRORRS".errors);
+//   return errors;
+// }
+
+// if (res.ok) {
+//   const newSpot = await res.json();
+//   console.log("inside create spot thunk. NEW SPOT:", newSpot);
+//   dispatch(createSpot(newSpot));
+//   return newSpot;
+// } else {
+//   const errors = await res.json();
+//   console.log("inside create thunk. ERRORRS".errors);
+//   return errors;
+// }
+//}; // not done yet
