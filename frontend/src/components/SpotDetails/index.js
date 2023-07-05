@@ -19,6 +19,8 @@ export default function SpotDetails() {
 
   if (!spot) return null;
 
+  if (!spot.SpotImages) return null;
+
   return (
     <div>
       <div>

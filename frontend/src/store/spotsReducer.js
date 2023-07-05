@@ -8,6 +8,8 @@ const GET_SPOT = "spots/GET_SPOT";
 
 const DELETE_SPOT = "spots/DELETE_SPOT";
 
+const LOAD_USER_SPOTS = "spots/LOAD_USER_SPOTS";
+
 //action creators
 
 export const getAllSpots = (spots) => {
@@ -38,6 +40,13 @@ export const deleteSpot = (spotId) => {
   };
 };
 
+export const getUserSpots = (spots) => {
+  return {
+    type: LOAD_USER_SPOTS,
+    spots,
+  };
+};
+
 //Thunk Action Creator
 
 export const getAllSpotsThunk = () => async (dispatch) => {
@@ -65,13 +74,35 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
   }
 };
 
-export const deleteSpotThunk = (spotId) => async (dispatch) => {
-  const res = csrfFetch(`/api/spots/${spotId}`, {
-    method: "DELETE",
-  });
+export const getUserSpotsThunk = () => async (dispatch) => {
+  try {
+    const res = await csrfFetch("/api/spots/current");
+    if (res.ok) {
+      console.log("Yay you made it to get user spots thunk");
+      const spots = await res.json();
+      dispatch(getUserSpots(spots));
+    }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
+  }
+};
 
-  if (res.ok) {
-    dispatch(deleteSpot(spotId));
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  try {
+    const res = csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      console.log("INSIDE DELETE THUNK");
+      dispatch(deleteSpot(spotId));
+    }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
   }
 };
 
@@ -120,6 +151,14 @@ const spotsReducer = (state = initialState, action) => {
       newState[action.spot.id] = action.spot;
       return newState;
       //return {...state, [action.spot.id]: action.spot};
+    }
+    case LOAD_USER_SPOTS: {
+      console.log("inside load user spots reducer");
+      const spotsState = {...state};
+      action.spots.Spots.forEach((spot) => {
+        spotsState[spot.id] = spot;
+      });
+      return spotsState;
     }
     case CREATE_SPOT: {
       return {...state, [action.spot.id]: action.spot};
