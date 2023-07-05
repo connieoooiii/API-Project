@@ -5,15 +5,26 @@
 }
 
 .side-preview {
-  width: 10rem;
+  width: 80%;
+  height: 80%;
+  margin: 1rem;
+  padding: 1rem;
+  object-fit: cover;
+  border: 1px solid blue;
+  border-radius: 10%;
 }
 
 .side-imgs {
+  width: 50%;
+  border: 1px red solid;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
 }
 
 .spot-preview-img {
-  width: 40rem;
+  width: 90%;
+  object-fit: cover;
+  margin: 1rem;
+  border-radius: 10%;
 }

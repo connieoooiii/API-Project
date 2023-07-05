@@ -15,7 +15,7 @@ export default function SpotCard({spot}) {
         <span className="tooltiptext">{spot.name}</span>
       </div>
       <Link to={`/spots/${spot.id}`}>
-        <img id="card-preview-img" src={spot.previewImage} />
+        <img className="card-preview-img" src={spot.previewImage} />
 
         <div>
           <div>
