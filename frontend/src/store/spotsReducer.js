@@ -10,6 +10,8 @@ const DELETE_SPOT = "spots/DELETE_SPOT";
 
 const LOAD_USER_SPOTS = "spots/LOAD_USER_SPOTS";
 
+const UPDATE_SPOT = "spots/UPDATE_SPOT";
+
 //action creators
 
 export const getAllSpots = (spots) => {
@@ -44,6 +46,13 @@ export const getUserSpots = (spots) => {
   return {
     type: LOAD_USER_SPOTS,
     spots,
+  };
+};
+
+export const updateSpot = (spot) => {
+  return {
+    type: UPDATE_SPOT,
+    spot,
   };
 };
 
@@ -133,6 +142,28 @@ export const createSpotThunk = (spot, spotImages) => async (dispatch) => {
   }
 };
 
+export const updateSpotThunk = (spot) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(spot),
+    });
+
+    if (res.ok) {
+      const editSpot = await res.json();
+      console.log("INISDE UPDATE THUNK", editSpot);
+
+      dispatch(updateSpot(editSpot));
+      return editSpot;
+    }
+  } catch (err) {
+    const error = await err.json();
+    console.log(error);
+    return error;
+  }
+};
+
 const initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
@@ -146,7 +177,7 @@ const spotsReducer = (state = initialState, action) => {
       return spotsState;
     }
     case GET_SPOT: {
-      console.log("SPOTS REDUCER", state);
+      console.log("GET A SPOT REDUCER", state);
       const newState = {...state};
       newState[action.spot.id] = action.spot;
       return newState;
@@ -154,7 +185,6 @@ const spotsReducer = (state = initialState, action) => {
     }
     case LOAD_USER_SPOTS: {
       console.log("inside load user spots reducer");
-      console.log("THIS IS STATE", state);
       const spotsState = {};
       console.log("THIS IS ACTION SPOTS", action.spot);
       action.spots.Spots.forEach((spot) => {
@@ -165,11 +195,16 @@ const spotsReducer = (state = initialState, action) => {
     case CREATE_SPOT: {
       return {...state, [action.spot.id]: action.spot};
     }
+    case UPDATE_SPOT: {
+      console.log("INSIDE UPDATE SPOT REDUCER");
+      return {...state, [action.spot.id]: action.spot};
+    }
     case DELETE_SPOT: {
       const newState = {...state};
       delete newState[action.spotId];
       return newState;
     }
+
     default:
       return state;
   }

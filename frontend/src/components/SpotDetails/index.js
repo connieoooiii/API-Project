@@ -4,6 +4,8 @@ import {useParams} from "react-router-dom";
 import {getOneSpotThunk} from "../../store/spotsReducer";
 import "./SpotDetails.css";
 
+import SpotReviews from "../SpotReviews";
+
 export default function SpotDetails() {
   const dispatch = useDispatch();
   const {spotId} = useParams();
@@ -76,32 +78,42 @@ export default function SpotDetails() {
           </div>
         </div>
       </div>
-      <div>
-        <div>
-          Hosted by{" "}
-          {spot.Owner ? (
-            <span>
-              {spot.Owner.firstName} {spot.Owner.lastName}
-            </span>
-          ) : null}
-        </div>
-        <div>{spot.description}</div>
-        <div>
+      <div className="info-wrap">
+        <div className="name-descr-wrap">
           <div>
+            Hosted by{" "}
+            {spot.Owner ? (
+              <span>
+                {spot.Owner.firstName} {spot.Owner.lastName}
+              </span>
+            ) : null}
+          </div>
+          <div>{spot.description}</div>
+        </div>
+        <div className="reserve-box">
+          <div className="price-reviews">
             <div>
               ${spot.price} <span>night</span>
             </div>
 
-            <p>
-              <i className="fa-solid fa-star"></i>{" "}
-              {spot.avgRating ? spot.avgRating : "New"}
-            </p>
-            <p>{spot.numReviews ? spot.numReviews : ""} reviews</p>
+            <div>
+              <i className="fa-solid fa-star"></i>
+              {spot.avgStarRating ? spot.avgStarRating : "New"}
+            </div>
+
+            <div>{spot.numReviews ? spot.numReviews : ""} reviews</div>
           </div>
           <button onClick={() => alert("Feature Coming Soon...")}>
             Reserve
           </button>
         </div>
+      </div>
+      <div>
+        <h2>
+          <i className="fa-solid fa-star"></i>
+          {spot.avgStarRating} • {spot.numReviews} reviews
+        </h2>
+        <SpotReviews spotId={spotId} />
       </div>
     </div>
   );

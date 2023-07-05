@@ -11,9 +11,12 @@ export default function SpotCard({spot}) {
   return (
     <div className="spot-card-wrap">
       {console.log(spot)}
-      <div className="tool-tip">{spot.name}</div>
+      <div className="tooltip">
+        <span className="tooltiptext">{spot.name}</span>
+      </div>
       <Link to={`/spots/${spot.id}`}>
-        <img src={spot.previewImage} style={{height: "10rem"}} />
+        <img className="card-preview-img" src={spot.previewImage} />
+
         <div>
           <div>
             <div>

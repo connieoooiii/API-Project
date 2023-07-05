@@ -42,7 +42,10 @@ function ProfileButton({user}) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <div>
+    <div className="profile-wrap">
+      <div className="create-spot-nav">
+        {user && <Link to="/spots/new">Create a New Spot</Link>}
+      </div>
       <button className="profile-button" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
@@ -79,7 +82,6 @@ function ProfileButton({user}) {
           </>
         )}
       </ul>
-      <div>{user && <Link to="/spots/new">Create a New Spot</Link>}</div>
     </div>
   );
 }
