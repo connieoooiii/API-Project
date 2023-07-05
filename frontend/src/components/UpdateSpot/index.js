@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom.min";
-import {getOneSpotThunk} from "../../store/spotsReducer";
+import {getOneSpotThunk, updateSpotThunk} from "../../store/spotsReducer";
 
 export default function UpdateSpot() {
   const {spotId} = useParams();
@@ -36,6 +36,7 @@ export default function UpdateSpot() {
       setName(spot.name);
       setPrice(spot.price);
       setImg1(spot.SpotImages[0].url);
+      console.log("SPOTIMAGES ARRAY", spot.SpotImages);
       spot.SpotImages[1] && setImg2(spot.SpotImages[1].url);
       spot.SpotImages[2] && setImg3(spot.SpotImages[2].url);
       spot.SpotImages[3] && setImg4(spot.SpotImages[3].url);
@@ -54,6 +55,8 @@ export default function UpdateSpot() {
     if (!price) errorsObj.price = "Price is required";
     if (!img1) errorsObj.img1 = "Preview image is required";
 
+    if (isNaN(price)) errorsObj.price = "Please input a number value";
+
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 
@@ -67,30 +70,30 @@ export default function UpdateSpot() {
 
     if (
       img2 &&
-      (!img2.endsWith(".png") ||
-        !img2.endsWith(".jpg") ||
-        !img2.endsWith(".jpeg"))
+      !img2.endsWith(".png") &&
+      !img2.endsWith(".jpg") &&
+      !img2.endsWith(".jpeg")
     )
       errorsObj.img2 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img3 &&
-      (!img3.endsWith(".png") ||
-        !img3.endsWith(".jpg") ||
-        !img3.endsWith(".jpeg"))
+      !img3.endsWith(".png") &&
+      !img3.endsWith(".jpg") &&
+      !img3.endsWith(".jpeg")
     )
       errorsObj.img3 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img4 &&
-      (!img4.endsWith(".png") ||
-        !img4.endsWith(".jpg") ||
-        !img4.endsWith(".jpeg"))
+      !img4.endsWith(".png") &&
+      !img4.endsWith(".jpg") &&
+      !img4.endsWith(".jpeg")
     )
       errorsObj.img4 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img5 &&
-      (!img5.endsWith(".png") ||
-        !img5.endsWith(".jpg") ||
-        !img5.endsWith(".jpeg"))
+      !img5.endsWith(".png") &&
+      !img5.endsWith(".jpg") &&
+      !img5.endsWith(".jpeg")
     )
       errorsObj.img5 = "Image URL must end in .png, .jpg, .jpeg";
     setErrors(errorsObj);
@@ -119,7 +122,8 @@ export default function UpdateSpot() {
 
     setErrors({});
 
-    const newSpot = {
+    const updatedSpot = {
+      id: spot.id,
       address,
       city,
       state,
@@ -129,56 +133,11 @@ export default function UpdateSpot() {
       name,
       description,
       price,
-      previewImage: img1,
-      img2,
-      img3,
-      img4,
-      img5,
     };
 
-    const spotImages = [];
+    console.log("Updated Spot in COMP", updatedSpot);
 
-    if (img1) {
-      const img1Obj = {
-        url: img1,
-        preview: true,
-      };
-      spotImages.push(img1Obj);
-    }
-    if (img2) {
-      const img2Obj = {
-        url: img2,
-        preview: false,
-      };
-      spotImages.push(img2Obj);
-    }
-    if (img3) {
-      const img3Obj = {
-        url: img3,
-        preview: false,
-      };
-      spotImages.push(img3Obj);
-    }
-    if (img4) {
-      const img4Obj = {
-        url: img4,
-        preview: false,
-      };
-      spotImages.push(img4Obj);
-    }
-    if (img5) {
-      const img5Obj = {
-        url: img1,
-        preview: false,
-      };
-      spotImages.push(img5Obj);
-    }
-
-    console.log("spotImages", spotImages);
-
-    console.log("newSpot", newSpot);
-
-    //const dispatchedSpot = await dispatch(createSpotThunk(newSpot, spotImages));
+    const spotUpdate = await dispatch(updateSpotThunk(updatedSpot));
 
     setCountry("");
     setAddress("");
@@ -192,7 +151,7 @@ export default function UpdateSpot() {
     setImg4("");
     setImg5("");
 
-    //if (dispatchedSpot) history.push(`/spots/${dispatchedSpot.id}`);
+    if (spotUpdate) history.push(`/spots/${spotUpdate.id}`);
   };
 
   return (
@@ -289,47 +248,7 @@ export default function UpdateSpot() {
           />
           {didSubmit && errors.price && <p>{errors.price}</p>}
         </div>
-        <div>
-          <h4>Liven up your spot with photos</h4>
-          <p>Submit a link to at least one photo to publish your spot.</p>
-          <div className="img-input-div">
-            <input
-              type="url"
-              value={img1}
-              onChange={(e) => setImg1(e.target.value)}
-              placeholder="Preview Image URL"
-            />
-            {didSubmit && errors.img1 && <p>{errors.img1}</p>}
-            <input
-              type="url"
-              value={img2}
-              onChange={(e) => setImg2(e.target.value)}
-              placeholder="Image URL"
-            />
-            {didSubmit && errors.img2 && <p>{errors.img2}</p>}
-            <input
-              type="url"
-              value={img3}
-              onChange={(e) => setImg3(e.target.value)}
-              placeholder="Image URL"
-            />
-            {didSubmit && errors.img3 && <p>{errors.img3}</p>}
-            <input
-              type="url"
-              value={img4}
-              onChange={(e) => setImg4(e.target.value)}
-              placeholder="Image URL"
-            />
-            {didSubmit && errors.img4 && <p>{errors.img4}</p>}
-            <input
-              type="url"
-              value={img5}
-              onChange={(e) => setImg5(e.target.value)}
-              placeholder="Image URL"
-            />
-            {didSubmit && errors.img5 && <p>{errors.img5}</p>}
-          </div>
-        </div>
+
         <button className="spot-button" type="submit">
           Create Spot
         </button>

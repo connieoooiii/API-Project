@@ -41,6 +41,8 @@ export default function CreateSpotForm() {
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 
+    if (isNaN(price)) errorsObj.price = "Please input a number value";
+
     if (
       img1 &&
       !img1.endsWith(".png") &&
