@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllSpotsThunk, getUserSpotsThunk} from "../../store/spotsReducer";
+import {getUserSpotsThunk} from "../../store/spotsReducer";
 import ManageSpotCard from "./ManageSpotCard";
 import "./ManageSpots.css";
 import {useHistory} from "react-router-dom";
@@ -24,28 +24,13 @@ export default function ManageSpots() {
 
   if (!userSpots.length) {
     // history.push("/");
-    return <h1>loading</h1>;
+    return (
+      <div>
+        <h2>You don't have any spots at this time!</h2>
+        <h3>Feel free to add spots!</h3>
+      </div>
+    );
   }
-
-  // const allSpots = useSelector((state) => {
-  //   return Object.values(state.spots);
-  // });
-
-  // const currUser = useSelector((state) => state.session);
-
-  // console.log("ALL SPOTS", allSpots);
-
-  // console.log("CURR User", currUser);
-
-  // const userSpots = allSpots.filter(
-  //   (spot) => spot.ownerId === currUser.user.id
-  // );
-
-  // console.log("userSpots", userSpots);
-
-  // useEffect(() => {
-  //   dispatch(getAllSpotsThunk());
-  // }, [dispatch]);
 
   return (
     <div className="parent-div">
@@ -70,3 +55,23 @@ export default function ManageSpots() {
     </div>
   );
 }
+
+// const allSpots = useSelector((state) => {
+//   return Object.values(state.spots);
+// });
+
+// const currUser = useSelector((state) => state.session);
+
+// console.log("ALL SPOTS", allSpots);
+
+// console.log("CURR User", currUser);
+
+// const userSpots = allSpots.filter(
+//   (spot) => spot.ownerId === currUser.user.id
+// );
+
+// console.log("userSpots", userSpots);
+
+// useEffect(() => {
+//   dispatch(getAllSpotsThunk());
+// }, [dispatch]);
