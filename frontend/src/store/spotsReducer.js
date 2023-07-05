@@ -146,7 +146,7 @@ const spotsReducer = (state = initialState, action) => {
       return spotsState;
     }
     case GET_SPOT: {
-      console.log("SPOTS REDUCER", state);
+      console.log("GET A SPOT REDUCER", state);
       const newState = {...state};
       newState[action.spot.id] = action.spot;
       return newState;
@@ -154,7 +154,6 @@ const spotsReducer = (state = initialState, action) => {
     }
     case LOAD_USER_SPOTS: {
       console.log("inside load user spots reducer");
-      console.log("THIS IS STATE", state);
       const spotsState = {};
       console.log("THIS IS ACTION SPOTS", action.spot);
       action.spots.Spots.forEach((spot) => {

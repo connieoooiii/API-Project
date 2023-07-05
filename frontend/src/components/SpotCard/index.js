@@ -13,7 +13,8 @@ export default function SpotCard({spot}) {
       {console.log(spot)}
       <div className="tool-tip">{spot.name}</div>
       <Link to={`/spots/${spot.id}`}>
-        <img src={spot.previewImage} style={{height: "10rem"}} />
+        <img id="card-preview-img" src={spot.previewImage} />
+
         <div>
           <div>
             <div>

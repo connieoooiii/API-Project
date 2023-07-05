@@ -1,3 +1,13 @@
 .spot-card-wrap {
   margin: 1rem;
 }
+
+#card-preview-img {
+  border-radius: 10%;
+  width: 18rem;
+  object-fit: cover;
+}
+
+/* #img-container {
+  position: relative;
+} */

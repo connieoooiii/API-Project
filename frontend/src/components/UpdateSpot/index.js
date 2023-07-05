@@ -1,17 +1,16 @@
 import {useEffect, useState} from "react";
-import "./CreateSpotForm.css";
 import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
-import {createSpotThunk} from "../../store/spotsReducer";
+import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom.min";
+import {getOneSpotThunk} from "../../store/spotsReducer";
 
-export default function CreateSpotForm() {
+export default function UpdateSpot() {
+  const {spotId} = useParams();
+
   const dispatch = useDispatch();
   const history = useHistory();
+  const spot = useSelector((state) => state.spots[spotId]);
+  console.log("spot to edit", spot);
 
-  // const owner = useSelector((state) => {
-  //   console.log("this is session user", state.session.user);
-  //   return state.session.user;
-  // });
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -26,6 +25,23 @@ export default function CreateSpotForm() {
   const [img5, setImg5] = useState("");
   const [errors, setErrors] = useState({});
   const [didSubmit, setDidSubmit] = useState(false);
+
+  useEffect(() => {
+    dispatch(getOneSpotThunk(spotId)).then((spot) => {
+      setCountry(spot.country);
+      setAddress(spot.address);
+      setCity(spot.city);
+      setState(spot.state);
+      setDescription(spot.description);
+      setName(spot.name);
+      setPrice(spot.price);
+      setImg1(spot.SpotImages[0].url);
+      spot.SpotImages[1] && setImg2(spot.SpotImages[1].url);
+      spot.SpotImages[2] && setImg3(spot.SpotImages[2].url);
+      spot.SpotImages[3] && setImg4(spot.SpotImages[3].url);
+      spot.SpotImages[4] && setImg5(spot.SpotImages[4].url);
+    });
+  }, [dispatch, spotId]);
 
   useEffect(() => {
     const errorsObj = {};
@@ -162,7 +178,7 @@ export default function CreateSpotForm() {
 
     console.log("newSpot", newSpot);
 
-    const dispatchedSpot = await dispatch(createSpotThunk(newSpot, spotImages));
+    //const dispatchedSpot = await dispatch(createSpotThunk(newSpot, spotImages));
 
     setCountry("");
     setAddress("");
@@ -176,7 +192,7 @@ export default function CreateSpotForm() {
     setImg4("");
     setImg5("");
 
-    if (dispatchedSpot) history.push(`/spots/${dispatchedSpot.id}`);
+    //if (dispatchedSpot) history.push(`/spots/${dispatchedSpot.id}`);
   };
 
   return (
@@ -191,7 +207,7 @@ export default function CreateSpotForm() {
             alignItems: "flex-start",
           }}
         >
-          <h3>Create a new Spot</h3>
+          <h3>Update your Spot</h3>
           <div>Where's your place located?</div>
           <p>
             Guests will only get your exact address once they booked a
