@@ -16,13 +16,15 @@ export default function ManageSpots() {
   console.log("this is user spots", userSpots);
 
   useEffect(() => {
+    console.log("I AM USE EFFECT");
     dispatch(getUserSpotsThunk());
   }, [dispatch]);
 
   console.log("this is userSpots.length", !userSpots.length > 0);
 
   if (!userSpots.length) {
-    history.push("/");
+    // history.push("/");
+    return <h1>loading</h1>;
   }
 
   // const allSpots = useSelector((state) => {

@@ -154,7 +154,9 @@ const spotsReducer = (state = initialState, action) => {
     }
     case LOAD_USER_SPOTS: {
       console.log("inside load user spots reducer");
-      const spotsState = {...state};
+      console.log("THIS IS STATE", state);
+      const spotsState = {};
+      console.log("THIS IS ACTION SPOTS", action.spot);
       action.spots.Spots.forEach((spot) => {
         spotsState[spot.id] = spot;
       });
