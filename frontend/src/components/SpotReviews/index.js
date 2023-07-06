@@ -4,9 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import DeleteReview from "../DeleteReview";
 import OpenModalButton from "../OpenModalButton";
 
-export default function SpotReviews({spotId}) {
+export default function SpotReviews({spotId, reviews}) {
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => Object.values(state.reviews));
+  //const reviews = useSelector((state) => Object.values(state.reviews));
 
   const currUser = useSelector((state) => state.session.user);
 

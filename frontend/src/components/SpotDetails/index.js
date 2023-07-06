@@ -2,9 +2,13 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getOneSpotThunk} from "../../store/spotsReducer";
+import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
+import OpenModalButton from "../OpenModalButton";
+
 import "./SpotDetails.css";
 
 import SpotReviews from "../SpotReviews";
+import CreateReview from "../CreateReview";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -12,26 +16,28 @@ export default function SpotDetails() {
   const spot = useSelector((state) => {
     return state.spots[spotId];
   });
+  const currUser = useSelector((state) => state.session.user);
+
+  const reviews = useSelector((state) => Object.values(state.reviews));
+
+  console.log("reviews !!!", reviews);
 
   console.log("SPOT", spot);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
+    dispatch(getAllSpotReviewsThunk(spotId));
   }, [dispatch, spotId]);
 
   if (!spot) return null;
 
   if (!spot.SpotImages) return null;
 
-  const spotReviews = () => {
-    if (spot.numReviews === 0) {
-      return null;
-    } else if (spot.numReviews === 1) {
-      <div>1 · Review</div>;
-    } else {
-      <div>{spot.numReviews} · Reviews</div>;
-    }
-  };
+  let reviewUsers = [];
+
+  for (let review of reviews) {
+    reviewUsers.push(review.User.id);
+  }
 
   return (
     <div>
@@ -145,7 +151,18 @@ export default function SpotDetails() {
             {spot.numReviews > 1 ? <span>{spot.numReviews} Reviews</span> : ""}
           </h2>
         </div>
-        <SpotReviews spotId={spotId} />
+
+        {currUser &&
+          currUser.id !== spot.ownerId &&
+          !reviewUsers.includes(currUser.id) && (
+            <OpenModalButton
+              modalComponent={
+                <CreateReview currUser={currUser.id} spotId={spotId} />
+              }
+              buttonText="Post Your Review"
+            />
+          )}
+        <SpotReviews spotId={spotId} reviews={reviews} />
       </div>
     </div>
   );

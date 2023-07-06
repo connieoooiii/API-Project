@@ -1,6 +1,7 @@
 import {useDispatch} from "react-redux";
 import {useModal} from "../../context/Modal";
 import {deleteReviewThunk} from "../../store/reviewsReducer";
+import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
 
 export default function DeleteReview({reviewId, spotId}) {
   const dispatch = useDispatch();
