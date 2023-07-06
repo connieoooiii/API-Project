@@ -2,6 +2,7 @@ import {useDispatch} from "react-redux";
 import {useModal} from "../../context/Modal";
 import {deleteReviewThunk} from "../../store/reviewsReducer";
 import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
+import {getOneSpot, getOneSpotThunk} from "../../store/spotsReducer";
 
 export default function DeleteReview({reviewId, spotId}) {
   const dispatch = useDispatch();
@@ -9,9 +10,12 @@ export default function DeleteReview({reviewId, spotId}) {
 
   const deleteHandler = async () => {
     console.log("inside delete handler for button");
-    await dispatch(deleteReviewThunk(reviewId)).then(
-      dispatch(getAllSpotReviewsThunk(spotId))
-    );
+    await dispatch(deleteReviewThunk(reviewId, spotId));
+
+    await dispatch(getAllSpotReviewsThunk(spotId));
+
+    await dispatch(getOneSpotThunk(spotId));
+
     closeModal();
   };
   return (
