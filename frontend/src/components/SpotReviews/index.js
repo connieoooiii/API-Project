@@ -1,6 +1,8 @@
 import {useEffect} from "react";
 import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
 import {useDispatch, useSelector} from "react-redux";
+import DeleteReview from "../DeleteReview";
+import OpenModalButton from "../OpenModalButton";
 
 export default function SpotReviews({spotId}) {
   const dispatch = useDispatch();
@@ -25,7 +27,12 @@ export default function SpotReviews({spotId}) {
           <h4>{review.User.firstName}</h4>
           <div>{review.review}</div>
           {currUser && review.userId === currUser.id ? (
-            <div>Hello user</div>
+            <OpenModalButton
+              modalComponent={
+                <DeleteReview reviewId={review.id} spotId={spotId} />
+              }
+              buttonText="Delete"
+            />
           ) : null}
         </div>
       ))}

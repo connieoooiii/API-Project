@@ -17,7 +17,7 @@ export default function DeleteSpot({spotId}) {
       <p>Are you sure you want to remove this spot from the listings?</p>
       <div>
         <button onClick={deleteHandler}>Yes (Delete Spot)</button>
-        <button onClick={() => closeModal}>No (Keep Spot)</button>
+        <button onClick={closeModal}>No (Keep Spot)</button>
       </div>
     </div>
   );
