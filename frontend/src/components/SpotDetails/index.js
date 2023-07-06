@@ -23,6 +23,16 @@ export default function SpotDetails() {
 
   if (!spot.SpotImages) return null;
 
+  const spotReviews = () => {
+    if (spot.numReviews === 0) {
+      return null;
+    } else if (spot.numReviews === 1) {
+      <div>1 · Review</div>;
+    } else {
+      <div>{spot.numReviews} · Reviews</div>;
+    }
+  };
+
   return (
     <div>
       <div>
@@ -98,10 +108,24 @@ export default function SpotDetails() {
 
             <div>
               <i className="fa-solid fa-star"></i>
-              {spot.avgStarRating ? spot.avgStarRating : "New"}
+              {spot.avgStarRating}
+              {spot.avgStarRating ? <span>&#8226;</span> : ""}
+            </div>
+            <div>
+              {spot.numReviews === 0 ? "New" : ""}
+              {spot.numReviews === 1 ? (
+                <span>{spot.numReviews} Review</span>
+              ) : (
+                ""
+              )}
+              {spot.numReviews > 1 ? (
+                <span>{spot.numReviews} Reviews</span>
+              ) : (
+                ""
+              )}
             </div>
 
-            <div>{spot.numReviews ? spot.numReviews : ""} reviews</div>
+            <div></div>
           </div>
           <button onClick={() => alert("Feature Coming Soon...")}>
             Reserve
@@ -109,10 +133,18 @@ export default function SpotDetails() {
         </div>
       </div>
       <div>
-        <h2>
-          <i className="fa-solid fa-star"></i>
-          {spot.avgStarRating} • {spot.numReviews} reviews
-        </h2>
+        <div style={{display: "flex"}}>
+          <h2 style={{display: "flex"}}>
+            <i className="fa-solid fa-star"></i>
+            {spot.avgStarRating}
+            {spot.avgStarRating ? <div>&#8226;</div> : ""}
+          </h2>
+          <h2>
+            {spot.numReviews === 0 ? "New" : ""}
+            {spot.numReviews === 1 ? <span>{spot.numReviews} Review</span> : ""}
+            {spot.numReviews > 1 ? <span>{spot.numReviews} Reviews</span> : ""}
+          </h2>
+        </div>
         <SpotReviews spotId={spotId} />
       </div>
     </div>

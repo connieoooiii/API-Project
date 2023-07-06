@@ -13,7 +13,7 @@ export default function DeleteSpot({spotId}) {
   };
   return (
     <div>
-      <h2>Confrim Delete</h2>
+      <h2>Confirm Delete</h2>
       <p>Are you sure you want to remove this spot from the listings?</p>
       <div>
         <button onClick={deleteHandler}>Yes (Delete Spot)</button>
