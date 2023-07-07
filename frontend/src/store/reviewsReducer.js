@@ -89,7 +89,7 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REVIEWS: {
       console.log("inside load reviews reducer");
-      const reviewsState = {...state};
+      const reviewsState = {};
       action.reviews.Reviews.forEach((review) => {
         reviewsState[review.id] = review;
       });
