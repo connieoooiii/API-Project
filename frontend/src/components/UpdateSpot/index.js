@@ -61,6 +61,8 @@ const usStates = [
   "VI",
 ];
 
+const fixedPrice = (price) => (+price).toFixed(2);
+
 export default function UpdateSpot() {
   const {spotId} = useParams();
 
@@ -183,6 +185,10 @@ export default function UpdateSpot() {
 
     setErrors({});
 
+    const newPrice = fixedPrice(price);
+
+    console.log("this is fixed price", newPrice);
+
     const updatedSpot = {
       id: spot.id,
       address,
@@ -193,7 +199,7 @@ export default function UpdateSpot() {
       lng: -122.47,
       name,
       description,
-      price,
+      price: newPrice,
     };
 
     console.log("Updated Spot in COMP", updatedSpot);

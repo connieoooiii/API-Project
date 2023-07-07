@@ -10,11 +10,15 @@ export default function ManageSpotCard({spot}) {
     // <h1>manage spot card</h1>
     <div className="manage-card-wrap">
       {console.log(spot)}
-      <div className="tool-tip">{spot.name}</div>
+      {/* <div className="tool-tip">{spot.name}</div> */}
       <Link to={`/spots/${spot.id}`}>
-        <img src={spot.previewImage} style={{height: "10rem"}} />
-        <div>
-          <div>
+        <img
+          className="manage-img"
+          src={spot.previewImage}
+          style={{height: "10rem"}}
+        />
+        <div className="card-info">
+          <div className="location-rate">
             <div>
               {spot.city}, {spot.state}{" "}
             </div>
@@ -25,7 +29,7 @@ export default function ManageSpotCard({spot}) {
               {spot.avgRating ? spot.avgRating.toFixed(1) : "New"}
             </div>
           </div>
-          <div>${spot.price} night</div>
+          <div className="price">${spot.price} night</div>
         </div>
       </Link>
     </div>

@@ -62,6 +62,8 @@ const usStates = [
   "VI",
 ];
 
+const fixedPrice = (price) => (+price).toFixed(2);
+
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -114,30 +116,30 @@ export default function CreateSpotForm() {
 
     if (
       img2 &&
-      (!img2.endsWith(".png") ||
-        !img2.endsWith(".jpg") ||
-        !img2.endsWith(".jpeg"))
+      !img2.endsWith(".png") &&
+      !img2.endsWith(".jpg") &&
+      !img2.endsWith(".jpeg")
     )
       errorsObj.img2 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img3 &&
-      (!img3.endsWith(".png") ||
-        !img3.endsWith(".jpg") ||
-        !img3.endsWith(".jpeg"))
+      !img3.endsWith(".png") &&
+      !img3.endsWith(".jpg") &&
+      !img3.endsWith(".jpeg")
     )
       errorsObj.img3 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img4 &&
-      (!img4.endsWith(".png") ||
-        !img4.endsWith(".jpg") ||
-        !img4.endsWith(".jpeg"))
+      !img4.endsWith(".png") &&
+      !img4.endsWith(".jpg") &&
+      !img4.endsWith(".jpeg")
     )
       errorsObj.img4 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img5 &&
-      (!img5.endsWith(".png") ||
-        !img5.endsWith(".jpg") ||
-        !img5.endsWith(".jpeg"))
+      !img5.endsWith(".png") &&
+      !img5.endsWith(".jpg") &&
+      !img5.endsWith(".jpeg")
     )
       errorsObj.img5 = "Image URL must end in .png, .jpg, .jpeg";
     setErrors(errorsObj);
@@ -166,6 +168,8 @@ export default function CreateSpotForm() {
 
     setErrors({});
 
+    const newPrice = fixedPrice(price);
+
     const newSpot = {
       address,
       city,
@@ -175,7 +179,7 @@ export default function CreateSpotForm() {
       lng: -122.47,
       name,
       description,
-      price,
+      price: newPrice,
       previewImage: img1,
       img2,
       img3,
