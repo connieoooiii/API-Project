@@ -2,9 +2,13 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getOneSpotThunk} from "../../store/spotsReducer";
+import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
+import OpenModalButton from "../OpenModalButton";
+
 import "./SpotDetails.css";
 
 import SpotReviews from "../SpotReviews";
+import CreateReview from "../CreateReview";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -12,16 +16,28 @@ export default function SpotDetails() {
   const spot = useSelector((state) => {
     return state.spots[spotId];
   });
+  const currUser = useSelector((state) => state.session.user);
+
+  const reviews = useSelector((state) => Object.values(state.reviews));
+
+  console.log("reviews !!!", reviews);
 
   console.log("SPOT", spot);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
+    dispatch(getAllSpotReviewsThunk(spotId));
   }, [dispatch, spotId]);
 
   if (!spot) return null;
 
   if (!spot.SpotImages) return null;
+
+  let reviewUsers = [];
+
+  for (let review of reviews) {
+    reviewUsers.push(review.userId);
+  }
 
   return (
     <div>
@@ -98,10 +114,24 @@ export default function SpotDetails() {
 
             <div>
               <i className="fa-solid fa-star"></i>
-              {spot.avgStarRating ? spot.avgStarRating : "New"}
+              {spot.avgStarRating}
+              {spot.avgStarRating ? <span>&#8226;</span> : ""}
+            </div>
+            <div>
+              {spot.numReviews === 0 ? "New" : ""}
+              {spot.numReviews === 1 ? (
+                <span>{spot.numReviews} Review</span>
+              ) : (
+                ""
+              )}
+              {spot.numReviews > 1 ? (
+                <span>{spot.numReviews} Reviews</span>
+              ) : (
+                ""
+              )}
             </div>
 
-            <div>{spot.numReviews ? spot.numReviews : ""} reviews</div>
+            <div></div>
           </div>
           <button onClick={() => alert("Feature Coming Soon...")}>
             Reserve
@@ -109,11 +139,30 @@ export default function SpotDetails() {
         </div>
       </div>
       <div>
-        <h2>
-          <i className="fa-solid fa-star"></i>
-          {spot.avgStarRating} • {spot.numReviews} reviews
-        </h2>
-        <SpotReviews spotId={spotId} />
+        <div style={{display: "flex"}}>
+          <h2 style={{display: "flex"}}>
+            <i className="fa-solid fa-star"></i>
+            {spot.avgStarRating}
+            {spot.avgStarRating ? <div>&#8226;</div> : ""}
+          </h2>
+          <h2>
+            {spot.numReviews === 0 ? "New" : ""}
+            {spot.numReviews === 1 ? <span>{spot.numReviews} Review</span> : ""}
+            {spot.numReviews > 1 ? <span>{spot.numReviews} Reviews</span> : ""}
+          </h2>
+        </div>
+
+        {currUser &&
+          currUser.id !== spot.ownerId &&
+          !reviewUsers.includes(currUser.id) && (
+            <OpenModalButton
+              modalComponent={
+                <CreateReview currUser={currUser.id} spotId={spotId} />
+              }
+              buttonText="Post Your Review"
+            />
+          )}
+        <SpotReviews spotId={spotId} reviews={reviews} />
       </div>
     </div>
   );

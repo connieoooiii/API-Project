@@ -1,0 +1,7 @@
+.rating-input .filled {
+  color: black;
+}
+
+.rating-input .empty {
+  color: rgb(193, 192, 192);
+}

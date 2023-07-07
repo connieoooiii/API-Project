@@ -3,6 +3,64 @@ import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom.min";
 import {getOneSpotThunk, updateSpotThunk} from "../../store/spotsReducer";
 
+const usStates = [
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+  "AS",
+  "GU",
+  "MP",
+  "PR",
+  "VI",
+];
+
 export default function UpdateSpot() {
   const {spotId} = useParams();
 
@@ -56,6 +114,9 @@ export default function UpdateSpot() {
     if (!img1) errorsObj.img1 = "Preview image is required";
 
     if (isNaN(price)) errorsObj.price = "Please input a number value";
+
+    if (!usStates.includes(state))
+      errorsObj.state = "Please enter a valid US State or Territory";
 
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";

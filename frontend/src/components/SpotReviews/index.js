@@ -1,10 +1,16 @@
 import {useEffect} from "react";
 import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
 import {useDispatch, useSelector} from "react-redux";
+import DeleteReview from "../DeleteReview";
+import OpenModalButton from "../OpenModalButton";
 
-export default function SpotReviews({spotId}) {
+export default function SpotReviews({spotId, reviews}) {
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => Object.values(state.reviews));
+  //const reviews = useSelector((state) => Object.values(state.reviews));
+
+  const currUser = useSelector((state) => state.session.user);
+
+  console.log("THis is curruser", currUser);
 
   console.log("in reviews comp this is review", reviews);
 
@@ -16,11 +22,18 @@ export default function SpotReviews({spotId}) {
 
   return (
     <div>
-      {reviews.map((review) => (
+      {reviews.reverse().map((review) => (
         <div key={review.id}>
-          <h4>{review.User.firstName}</h4>
-
+          <h4>{review.User && review.User.firstName}</h4>
           <div>{review.review}</div>
+          {currUser && review.userId === currUser.id ? (
+            <OpenModalButton
+              modalComponent={
+                <DeleteReview reviewId={review.id} spotId={spotId} />
+              }
+              buttonText="Delete"
+            />
+          ) : null}
         </div>
       ))}
     </div>
