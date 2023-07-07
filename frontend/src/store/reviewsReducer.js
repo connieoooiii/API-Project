@@ -17,7 +17,7 @@ export const getSpotReviews = (reviews) => {
 
 export const deleteReview = (reviewId) => {
   return {
-    action: DELETE_REVIEW,
+    type: DELETE_REVIEW,
     reviewId,
   };
 };
@@ -41,49 +41,45 @@ export const getAllSpotReviewsThunk = (spotId) => async (dispatch) => {
       return reviews;
     }
   } catch (err) {
-    const error = await err.json();
-    console.log(error);
-    return error;
+    console.log(err);
   }
 };
 
 export const deleteReviewThunk = (reviewId, spotId) => async (dispatch) => {
   try {
-    const res = csrfFetch(` /api/reviews/${reviewId}`, {
+    const res = await csrfFetch(` /api/reviews/${reviewId}`, {
       method: "DELETE",
     });
-
+    console.log("delete res", res);
     if (res.ok) {
       console.log("INSIDE DELETE THUNK");
       dispatch(deleteReview(reviewId));
       dispatch(getAllSpotReviewsThunk(spotId));
     }
   } catch (err) {
-    const error = await err.json();
-    console.log(error);
-    return error;
+    console.log("There was an error deleting review", err);
   }
 };
 
 export const createReviewThunk = (review, spotId) => async (dispatch) => {
+  console.log("inside thunk create review");
   try {
-    const res = csrfFetch(`/api/spots/${spotId}/reviews`, {
+    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(review),
     });
-
+    console.log("res complete");
+    console.log(res);
     if (res.ok) {
+      console.log("res ok");
       const newReview = await res.json();
       console.log("INSIDE CREATE REVIEW THUNK", newReview);
       dispatch(createReview(newReview));
-      //dispatch(getAllSpotReviewsThunk(spotId));
       return newReview;
     }
   } catch (err) {
-    const error = await err.json();
-    console.log(error);
-    return error;
+    return err;
   }
 };
 
@@ -93,7 +89,7 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REVIEWS: {
       console.log("inside load reviews reducer");
-      const reviewsState = {};
+      const reviewsState = {...state};
       action.reviews.Reviews.forEach((review) => {
         reviewsState[review.id] = review;
       });
@@ -105,6 +101,7 @@ const reviewsReducer = (state = initialState, action) => {
       return newState;
     }
     case CREATE_REVIEW: {
+      console.log("action.review", action.review);
       console.log("inside reviews reducer create review");
       return {...state, [action.review.id]: action.review};
     }

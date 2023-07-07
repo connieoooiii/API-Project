@@ -36,7 +36,7 @@ export default function SpotDetails() {
   let reviewUsers = [];
 
   for (let review of reviews) {
-    reviewUsers.push(review.User.id);
+    reviewUsers.push(review.userId);
   }
 
   return (

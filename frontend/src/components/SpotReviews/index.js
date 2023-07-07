@@ -24,7 +24,7 @@ export default function SpotReviews({spotId, reviews}) {
     <div>
       {reviews.reverse().map((review) => (
         <div key={review.id}>
-          <h4>{review.User.firstName}</h4>
+          <h4>{review.User && review.User.firstName}</h4>
           <div>{review.review}</div>
           {currUser && review.userId === currUser.id ? (
             <OpenModalButton

@@ -6,11 +6,11 @@ import {useModal} from "../../context/Modal";
 import "./CreateReview.css";
 import {getOneSpotThunk} from "../../store/spotsReducer";
 
-export default function CreateReview({spotId}) {
+export default function CreateReview({currUser, spotId}) {
   const dispatch = useDispatch();
   const history = useHistory();
   const {closeModal} = useModal();
-  const [yourReview, setYourReview] = useState("");
+  const [review, setReview] = useState("");
   const [errors, setErrors] = useState({});
   const [activeRating, setActiveRating] = useState(0);
   const [starsRating, setStarsRating] = useState();
@@ -18,50 +18,70 @@ export default function CreateReview({spotId}) {
 
   useEffect(() => {
     const errorsObj = {};
-    if (yourReview.length < 10)
-      errorsObj.yourReview = "Your review must be at least 10 characters";
+    if (review.length < 10)
+      errorsObj.review = "Your review must be at least 10 characters";
 
     if (starsRating < 1 || !starsRating)
       errorsObj.starsRating = "Star rating must be at least 1";
 
     setErrors(errorsObj);
-  }, [yourReview, starsRating]);
+  }, [review, starsRating]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDidSubmit(true);
 
     const newReview = {
-      review: yourReview,
+      review,
       stars: starsRating,
     };
-    console.log("inside create review handle submit");
-    const dispatchedReview = await dispatch(
-      createReviewThunk(newReview, spotId)
-    );
-    await dispatch(getOneSpotThunk(spotId));
 
-    console.log(
-      "yay the review has been created: dispatched review",
-      dispatchedReview
-    );
+    console.log("new review", newReview);
 
-    setYourReview("");
-    setActiveRating(0);
-    setStarsRating();
+    try {
+      const dispatchedReview = await dispatch(
+        createReviewThunk(newReview, spotId)
+      );
 
-    if (dispatchedReview) {
-      closeModal();
-      history.push(`/spots/${spotId}`);
+      await dispatch(getOneSpotThunk(spotId));
+
+      console.log(
+        "yay the review has been created: dispatched review",
+        dispatchedReview
+      );
+
+      setReview("");
+      setActiveRating(0);
+      setStarsRating();
+
+      if (dispatchedReview) {
+        closeModal();
+        history.push(`/spots/${spotId}`);
+      }
+    } catch (err) {
+      const errorsObj = {};
+
+      if (err) errorsObj.err = err;
+      setErrors(err);
     }
+
+    // const newReview = {
+    //   //   spotId: spotId,
+    //   //   userId: currUser,
+    //   review,
+    //   stars: starsRating,
+    // };
+    // console.log("inside create review handle submit");
+    // await dispatch(createReviewThunk(newReview, spotId));
   };
 
   return (
     <div>
       <h2>How was your stay?</h2>
       <form onSubmit={handleSubmit}>
-        {didSubmit && errors.yourReview && <p>{errors.yourReview}</p>}
-        {didSubmit && errors.starsRating && <p>{errors.starsRating}</p>}
+        {didSubmit && errors.review && <p>{errors.review}</p>}
+        {errors.starsRating && <p>{errors.starsRating}</p>}
+        {errors.err && <p>{errors.err}</p>}
         <div className="rating-input">
           <div
             className={activeRating >= 1 ? "filled" : "empty"}
@@ -105,8 +125,8 @@ export default function CreateReview({spotId}) {
           </div>
         </div>
         <textarea
-          value={yourReview}
-          onChange={(e) => setYourReview(e.target.value)}
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
           placeholder="Leave your review here..."
         />
         <button type="submit" disabled={Object.values(errors).length > 0}>
