@@ -74,7 +74,10 @@ export default function CreateReview({currUser, spotId}) {
         closeModal();
         history.push(`/spots/${spotId}`);
       } else {
-        setErrors(dispatchedReview);
+        const errorsObj = {};
+
+        errorsObj.dispatchedReview = dispatchedReview;
+        setErrors(errorsObj);
       }
     } else {
       //setDisableBtn(true);
@@ -85,61 +88,69 @@ export default function CreateReview({currUser, spotId}) {
     <div className="rvw-wrap">
       <h2>How was your stay?</h2>
       <form onSubmit={handleSubmit}>
-        {didSubmit && errors.review && <p>{errors.review}</p>}
-        {didSubmit && errors.starsRating && <p>{errors.starsRating}</p>}
-        {didSubmit && errors.err && <p>{errors.err}</p>}
-        <div className="rating-input">
-          <div
-            className={activeRating >= 1 ? "filled" : "empty"}
-            onMouseEnter={() => setActiveRating(1)}
-            onMouseLeave={() => setActiveRating(starsRating)}
-            onClick={() => setStarsRating(1)}
-          >
-            <i className="fa-sharp fa-solid fa-star"></i>
-          </div>
-          <div
-            className={activeRating >= 2 ? "filled" : "empty"}
-            onMouseEnter={() => setActiveRating(2)}
-            onMouseLeave={() => setActiveRating(starsRating)}
-            onClick={() => setStarsRating(2)}
-          >
-            <i className="fa-sharp fa-solid fa-star"></i>
-          </div>
-          <div
-            className={activeRating >= 3 ? "filled" : "empty"}
-            onMouseEnter={() => setActiveRating(3)}
-            onMouseLeave={() => setActiveRating(starsRating)}
-            onClick={() => setStarsRating(3)}
-          >
-            <i className="fa-sharp fa-solid fa-star"></i>
-          </div>
-          <div
-            className={activeRating >= 4 ? "filled" : "empty"}
-            onMouseEnter={() => setActiveRating(4)}
-            onMouseLeave={() => setActiveRating(starsRating)}
-            onClick={() => setStarsRating(4)}
-          >
-            <i className="fa-sharp fa-solid fa-star"></i>
-          </div>
-          <div
-            className={activeRating >= 5 ? "filled" : "empty"}
-            onMouseEnter={() => setActiveRating(5)}
-            onMouseLeave={() => setActiveRating(starsRating)}
-            onClick={() => setStarsRating(5)}
-          >
-            <i className="fa-sharp fa-solid fa-star"></i>
-          </div>
-        </div>
+        {didSubmit && (
+          <>
+            {errors.review && <p>{errors.review}</p>}
+            {errors.starsRating && <p>{errors.starsRating}</p>}
+            {errors.dispatchedReview && <p>{errors.dispatchedReview}</p>}
+          </>
+        )}
+
+        <textarea
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          placeholder="Leave your review here..."
+        />
+
         <div className="text-btn">
-          <textarea
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            placeholder="Leave your review here..."
-          />
+          <div className="rating-input">
+            <div
+              className={activeRating >= 1 ? "filled" : "empty"}
+              onMouseEnter={() => setActiveRating(1)}
+              onMouseLeave={() => setActiveRating(starsRating)}
+              onClick={() => setStarsRating(1)}
+            >
+              <i className="fa-sharp fa-solid fa-star"></i>
+            </div>
+            <div
+              className={activeRating >= 2 ? "filled" : "empty"}
+              onMouseEnter={() => setActiveRating(2)}
+              onMouseLeave={() => setActiveRating(starsRating)}
+              onClick={() => setStarsRating(2)}
+            >
+              <i className="fa-sharp fa-solid fa-star"></i>
+            </div>
+            <div
+              className={activeRating >= 3 ? "filled" : "empty"}
+              onMouseEnter={() => setActiveRating(3)}
+              onMouseLeave={() => setActiveRating(starsRating)}
+              onClick={() => setStarsRating(3)}
+            >
+              <i className="fa-sharp fa-solid fa-star"></i>
+            </div>
+            <div
+              className={activeRating >= 4 ? "filled" : "empty"}
+              onMouseEnter={() => setActiveRating(4)}
+              onMouseLeave={() => setActiveRating(starsRating)}
+              onClick={() => setStarsRating(4)}
+            >
+              <i className="fa-sharp fa-solid fa-star"></i>
+            </div>
+            <div
+              className={activeRating >= 5 ? "filled" : "empty"}
+              onMouseEnter={() => setActiveRating(5)}
+              onMouseLeave={() => setActiveRating(starsRating)}
+              onClick={() => setStarsRating(5)}
+            >
+              <i className="fa-sharp fa-solid fa-star"></i>
+            </div>
+          </div>
+
           <button
             type="submit"
             disabled={Object.keys(errors).length > 0}
             className="rvw-btn"
+            onClick={() => setDidSubmit(true)}
           >
             Submit Your Review
           </button>
