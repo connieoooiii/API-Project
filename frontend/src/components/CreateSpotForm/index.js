@@ -303,7 +303,7 @@ export default function CreateSpotForm() {
           <h4>Describe your place to Guests</h4>
           <div>
             Mention the best features of your space, any special amentities like
-            fast wifi or paking, and what you love about the neighborhood.
+            fast wifi or parking, and what you love about the neighborhood.
           </div>
           <textarea
             value={description}
@@ -315,8 +315,8 @@ export default function CreateSpotForm() {
         <div>
           <h4>Create a title for your spot</h4>
           <p>
-            Catch guests' attention with a spot that highlights what makes your
-            place special.
+            Catch guests' attention with a spot title that highlights what makes
+            your place special.
           </p>
           <input
             type="text"
@@ -329,8 +329,8 @@ export default function CreateSpotForm() {
         <div>
           <h4>Set a base price for your spot</h4>
           <p>
-            Competitive pricing can help your list stand out and rank higher in
-            search results
+            Competitive pricing can help your listing stand out and rank higher
+            in search results.
           </p>
           <span>$</span>
           <input

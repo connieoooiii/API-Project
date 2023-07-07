@@ -26,8 +26,10 @@ export default function ManageSpots() {
     // history.push("/");
     return (
       <div>
-        <h2>You don't have any spots at this time!</h2>
-        <h3>Feel free to add spots!</h3>
+        <h2>Manage Your Spots</h2>
+        <button onClick={() => history.push("/spots/new")}>
+          Create a New Spot
+        </button>
       </div>
     );
   }
@@ -35,9 +37,7 @@ export default function ManageSpots() {
   return (
     <div className="parent-div">
       <h2>Manage Your Spots</h2>
-      <button onClick={() => history.push("/spots/new")}>
-        Create a New Spot
-      </button>
+
       <div className="wrapperdiv">
         {userSpots.map((spot) => (
           <div key={spot.id}>

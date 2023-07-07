@@ -148,7 +148,7 @@ export default function CreateReview({currUser, spotId}) {
 
           <button
             type="submit"
-            disabled={review.length < 10 || starsRating < 1}
+            disabled={Object.values(errors).length > 0}
             className="rvw-btn"
             onClick={() => setDidSubmit(true)}
           >
