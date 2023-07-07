@@ -74,13 +74,15 @@ export default function CreateReview({currUser, spotId}) {
         closeModal();
         history.push(`/spots/${spotId}`);
       } else {
+        const errorData = await dispatchedReview.json();
         const errorsObj = {};
 
-        errorsObj.dispatchedReview = dispatchedReview;
+        errorsObj.dispatchedReview = errorData.message;
         setErrors(errorsObj);
+        console.log("setErrors", errorsObj);
       }
     } else {
-      //setDisableBtn(true);
+      history.push(`/spots/${spotId}`);
     }
   };
 
@@ -89,11 +91,9 @@ export default function CreateReview({currUser, spotId}) {
       <h2>How was your stay?</h2>
       <form onSubmit={handleSubmit}>
         {didSubmit && (
-          <>
-            {errors.review && <p>{errors.review}</p>}
-            {errors.starsRating && <p>{errors.starsRating}</p>}
+          <div>
             {errors.dispatchedReview && <p>{errors.dispatchedReview}</p>}
-          </>
+          </div>
         )}
 
         <textarea
@@ -148,7 +148,7 @@ export default function CreateReview({currUser, spotId}) {
 
           <button
             type="submit"
-            disabled={Object.keys(errors).length > 0}
+            disabled={review.length < 10 || starsRating < 1}
             className="rvw-btn"
             onClick={() => setDidSubmit(true)}
           >
