@@ -211,7 +211,7 @@ const reviews = [
   },
   {
     spotId: 10,
-    userId: 6,
+    userId: 7,
     review:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet aliquet lacus. Nulla elit orci, cursus mattis efficitur a, finibus quis ante. Suspendisse ultrices ultrices lectus, sit amet dignissim ante vehicula non. Ut eleifend dignissim molestie.",
     stars: 5,
