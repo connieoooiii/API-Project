@@ -98,6 +98,8 @@ export default function CreateSpotForm() {
     if (!price) errorsObj.price = "Price is required";
     if (!img1) errorsObj.img1 = "Preview image is required";
 
+    if (!isNaN(country)) errorsObj.country = "Please input a valid country";
+
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 

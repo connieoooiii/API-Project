@@ -5,6 +5,7 @@
 .manage-img {
   border-radius: 10%;
   width: 100%;
+  height: 80%;
   object-fit: cover;
   box-shadow: 4px 3px 3px lightgray;
 }

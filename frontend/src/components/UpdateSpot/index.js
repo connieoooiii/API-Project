@@ -115,6 +115,8 @@ export default function UpdateSpot() {
     if (!price) errorsObj.price = "Price is required";
     if (!img1) errorsObj.img1 = "Preview image is required";
 
+    if (!isNaN(country)) errorsObj.country = "Please input a valid country";
+
     if (isNaN(price)) errorsObj.price = "Please input a number value";
 
     if (!usStates.includes(state))
