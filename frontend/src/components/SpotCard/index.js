@@ -17,8 +17,8 @@ export default function SpotCard({spot}) {
       <Link to={`/spots/${spot.id}`}>
         <img className="card-preview-img" src={spot.previewImage} />
 
-        <div>
-          <div>
+        <div className="card-info">
+          <div className="location-rate">
             <div>
               {spot.city}, {spot.state}{" "}
             </div>
@@ -27,7 +27,7 @@ export default function SpotCard({spot}) {
               {spot.avgRating ? spot.avgRating.toFixed(1) : "New"}
             </div>
           </div>
-          <div>${spot.price} night</div>
+          <div className="price">${spot.price} night</div>
         </div>
       </Link>
     </div>

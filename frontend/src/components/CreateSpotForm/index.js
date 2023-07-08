@@ -62,6 +62,8 @@ const usStates = [
   "VI",
 ];
 
+const fixedPrice = (price) => (+price).toFixed(2);
+
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -114,30 +116,30 @@ export default function CreateSpotForm() {
 
     if (
       img2 &&
-      (!img2.endsWith(".png") ||
-        !img2.endsWith(".jpg") ||
-        !img2.endsWith(".jpeg"))
+      !img2.endsWith(".png") &&
+      !img2.endsWith(".jpg") &&
+      !img2.endsWith(".jpeg")
     )
       errorsObj.img2 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img3 &&
-      (!img3.endsWith(".png") ||
-        !img3.endsWith(".jpg") ||
-        !img3.endsWith(".jpeg"))
+      !img3.endsWith(".png") &&
+      !img3.endsWith(".jpg") &&
+      !img3.endsWith(".jpeg")
     )
       errorsObj.img3 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img4 &&
-      (!img4.endsWith(".png") ||
-        !img4.endsWith(".jpg") ||
-        !img4.endsWith(".jpeg"))
+      !img4.endsWith(".png") &&
+      !img4.endsWith(".jpg") &&
+      !img4.endsWith(".jpeg")
     )
       errorsObj.img4 = "Image URL must end in .png, .jpg, .jpeg";
     if (
       img5 &&
-      (!img5.endsWith(".png") ||
-        !img5.endsWith(".jpg") ||
-        !img5.endsWith(".jpeg"))
+      !img5.endsWith(".png") &&
+      !img5.endsWith(".jpg") &&
+      !img5.endsWith(".jpeg")
     )
       errorsObj.img5 = "Image URL must end in .png, .jpg, .jpeg";
     setErrors(errorsObj);
@@ -166,6 +168,8 @@ export default function CreateSpotForm() {
 
     setErrors({});
 
+    const newPrice = fixedPrice(price);
+
     const newSpot = {
       address,
       city,
@@ -175,7 +179,7 @@ export default function CreateSpotForm() {
       lng: -122.47,
       name,
       description,
-      price,
+      price: newPrice,
       previewImage: img1,
       img2,
       img3,
@@ -299,7 +303,7 @@ export default function CreateSpotForm() {
           <h4>Describe your place to Guests</h4>
           <div>
             Mention the best features of your space, any special amentities like
-            fast wifi or paking, and what you love about the neighborhood.
+            fast wifi or parking, and what you love about the neighborhood.
           </div>
           <textarea
             value={description}
@@ -311,8 +315,8 @@ export default function CreateSpotForm() {
         <div>
           <h4>Create a title for your spot</h4>
           <p>
-            Catch guests' attention with a spot that highlights what makes your
-            place special.
+            Catch guests' attention with a spot title that highlights what makes
+            your place special.
           </p>
           <input
             type="text"
@@ -325,8 +329,8 @@ export default function CreateSpotForm() {
         <div>
           <h4>Set a base price for your spot</h4>
           <p>
-            Competitive pricing can help your list stand out and rank higher in
-            search results
+            Competitive pricing can help your listing stand out and rank higher
+            in search results.
           </p>
           <span>$</span>
           <input

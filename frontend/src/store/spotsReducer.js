@@ -99,19 +99,15 @@ export const getUserSpotsThunk = () => async (dispatch) => {
 };
 
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
-  try {
-    const res = csrfFetch(`/api/spots/${spotId}`, {
-      method: "DELETE",
-    });
+  const res = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE",
+  });
 
-    if (res.ok) {
-      console.log("INSIDE DELETE THUNK");
-      dispatch(deleteSpot(spotId));
-    }
-  } catch (err) {
-    const error = await err.json();
-    console.log(error);
-    return error;
+  if (res.ok) {
+    const spot = await res.json();
+    console.log("INSIDE DELETE THUNK");
+    dispatch(deleteSpot(spotId));
+    return spot;
   }
 };
 
