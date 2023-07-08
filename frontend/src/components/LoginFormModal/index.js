@@ -27,24 +27,6 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors({});
 
-    // const loggedUser = await dispatch(
-    //   sessionActions.login({credential, password})
-    // );
-
-    // console.log("loggedUser", loggedUser);
-
-    // if (loggedUser.id) {
-    //   closeModal();
-    // } else {
-    //   // const err = await loggedUser.json();
-    //   const errObj = {};
-
-    //   // console.log("err", err.message);
-
-    //   errObj.invalidUser = "Invalid credentials";
-
-    //   setErrors(errObj);
-    // }
     return dispatch(sessionActions.login({credential, password}))
       .then(closeModal)
       .catch(async (res) => {

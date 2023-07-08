@@ -64,6 +64,10 @@ const usStates = [
 
 const fixedPrice = (price) => (+price).toFixed(2);
 
+const lettersOnly = (word) => {
+  return /^[A-Za-z\s]*$/.test(word);
+};
+
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -98,7 +102,8 @@ export default function CreateSpotForm() {
     if (!price) errorsObj.price = "Price is required";
     if (!img1) errorsObj.img1 = "Preview image is required";
 
-    if (!isNaN(country)) errorsObj.country = "Please input a valid country";
+    if (!lettersOnly(country))
+      errorsObj.country = "Please input a valid country";
 
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
