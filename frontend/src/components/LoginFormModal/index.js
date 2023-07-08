@@ -8,6 +8,7 @@ function LoginFormModal() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
+  const [didSubmit, setDidSubmit] = useState(false);
   const [errors, setErrors] = useState({});
   const {closeModal} = useModal();
 
@@ -26,6 +27,7 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    setDidSubmit(true);
 
     return dispatch(sessionActions.login({credential, password}))
       .then(closeModal)
@@ -51,36 +53,54 @@ function LoginFormModal() {
     );
   };
 
+  const disabled = password.length < 6 || credential.length < 4 ? true : null;
+
   return (
-    <>
+    <div className="log-wrap">
       <h1>Log In</h1>
+      {didSubmit && errors.credential && (
+        <p className="log-err">{errors.credential}</p>
+      )}
+      {didSubmit && errors.message && (
+        <p className="log-err">{errors.message}</p>
+      )}
       <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
+        <div>
           <input
+            className="log-input"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
+            placeholder="Username or Email"
           />
-        </label>
-        <label>
-          Password
+        </div>
+
+        <div>
           <input
+            className="log-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="Password"
           />
-        </label>
-        {errors.credential && <p>{errors.credential}</p>}
-        {errors.message && <p>{errors.message}</p>}
-        <button type="submit" disabled={Object.keys(errors).length > 0}>
-          Log In
-        </button>
-        <button onClick={demoUser}>Demo User</button>
+        </div>
+
+        <div className="log-btns">
+          <button
+            className={`log-submit ${disabled ? "inactive" : ""}`}
+            type="submit"
+            disabled={disabled}
+          >
+            Log In
+          </button>
+          <button className="demo-btn" onClick={demoUser}>
+            Demo User
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

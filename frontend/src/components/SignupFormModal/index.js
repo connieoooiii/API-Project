@@ -69,7 +69,7 @@ function SignupFormModal() {
     });
   };
 
-  const disabled = password.length < 6 && username.length < 4 ? true : null;
+  const disabled = password.length < 6 || username.length < 4 ? true : null;
 
   return (
     <div className="sign-up-wrap" style={{borderRadius: "10%"}}>

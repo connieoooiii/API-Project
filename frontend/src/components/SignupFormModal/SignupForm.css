@@ -16,16 +16,17 @@
 }
 .signup-btn {
   cursor: pointer;
-  border: 1px solid gray;
+  border: 1px solid black;
   color: white;
   box-shadow: 2px 2px black;
   background-color: #ff5a5f;
 }
 
 .signup-btn.inactive {
-  background-color: lightgray;
+  background-color: rgb(240, 239, 239);
   color: gray;
   box-shadow: 2px 2px gray;
+  border: 1px solid darkgray;
 }
 
 .sign-err {
