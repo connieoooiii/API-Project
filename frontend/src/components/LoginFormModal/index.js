@@ -23,15 +23,37 @@ function LoginFormModal() {
     setErrors(errorsOj);
   }, [credential, password]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+
+    // const loggedUser = await dispatch(
+    //   sessionActions.login({credential, password})
+    // );
+
+    // console.log("loggedUser", loggedUser);
+
+    // if (loggedUser.id) {
+    //   closeModal();
+    // } else {
+    //   // const err = await loggedUser.json();
+    //   const errObj = {};
+
+    //   // console.log("err", err.message);
+
+    //   errObj.invalidUser = "Invalid credentials";
+
+    //   setErrors(errObj);
+    // }
     return dispatch(sessionActions.login({credential, password}))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
+        const errObj = {};
+        if (data && data.message) {
+          errObj.message = data.message;
+
+          setErrors(errObj);
         }
       });
   };
@@ -70,6 +92,7 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && <p>{errors.credential}</p>}
+        {errors.message && <p>{errors.message}</p>}
         <button type="submit" disabled={Object.keys(errors).length > 0}>
           Log In
         </button>
