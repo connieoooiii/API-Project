@@ -144,6 +144,7 @@ export default function CreateReview({currUser, spotId}) {
             >
               <i className="fa-sharp fa-solid fa-star"></i>
             </div>
+            <div>Stars</div>
           </div>
 
           <button
