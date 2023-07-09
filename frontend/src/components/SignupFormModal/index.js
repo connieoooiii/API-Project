@@ -47,7 +47,7 @@ function SignupFormModal() {
       setErrors({});
       return dispatch(
         sessionActions.signup({
-          email,
+          email: email.toLowerCase(),
           username,
           firstName,
           lastName,
@@ -136,7 +136,9 @@ function SignupFormModal() {
           placeholder="Password"
         />
 
-        {didSubmit && errors.password && <p>{errors.password}</p>}
+        {didSubmit && errors.password && (
+          <p className="sign-err">{errors.password}</p>
+        )}
 
         <input
           className="form-input"
@@ -147,7 +149,9 @@ function SignupFormModal() {
           placeholder="Confirm Password"
         />
 
-        {didSubmit && errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {didSubmit && errors.confirmPassword && (
+          <p className="sign-err">{errors.confirmPassword}</p>
+        )}
         <div>
           <button
             disabled={disabled}

@@ -105,13 +105,20 @@ export default function CreateSpotForm() {
     if (!lettersOnly(country))
       errorsObj.country = "Please input a valid country";
 
+    if (name.length > 50)
+      errorsObj.name = "Name must be less than 50 characters";
+
+    if (description.length > 4800)
+      errorsObj.description = "Description must be less than 4800 characters";
+
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 
     if (isNaN(price)) errorsObj.price = "Please input a number value";
 
-    if (!usStates.includes(state))
-      errorsObj.state = "Please enter a valid US State or Territory";
+    if (!usStates.includes(state.toUpperCase()))
+      errorsObj.state =
+        "Please enter a capitalized valid US State (i.e CA or HI)";
 
     if (
       img1 &&
@@ -180,7 +187,7 @@ export default function CreateSpotForm() {
     const newSpot = {
       address,
       city,
-      state,
+      state: state.toUpperCase(),
       country,
       lat: 37.76,
       lng: -122.47,

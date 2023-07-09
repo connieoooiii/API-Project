@@ -82,11 +82,6 @@ export default function UpdateSpot() {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [img1, setImg1] = useState("");
-  const [img2, setImg2] = useState("");
-  const [img3, setImg3] = useState("");
-  const [img4, setImg4] = useState("");
-  const [img5, setImg5] = useState("");
   const [errors, setErrors] = useState({});
   const [didSubmit, setDidSubmit] = useState(false);
 
@@ -99,12 +94,6 @@ export default function UpdateSpot() {
       setDescription(spot.description);
       setName(spot.name);
       setPrice(spot.price);
-      setImg1(spot.SpotImages[0].url);
-      console.log("SPOTIMAGES ARRAY", spot.SpotImages);
-      spot.SpotImages[1] && setImg2(spot.SpotImages[1].url);
-      spot.SpotImages[2] && setImg3(spot.SpotImages[2].url);
-      spot.SpotImages[3] && setImg4(spot.SpotImages[3].url);
-      spot.SpotImages[4] && setImg5(spot.SpotImages[4].url);
     });
   }, [dispatch, spotId]);
 
@@ -117,70 +106,30 @@ export default function UpdateSpot() {
     if (!state) errorsObj.state = "State is required";
     if (!name) errorsObj.name = "Name is required";
     if (!price) errorsObj.price = "Price is required";
-    if (!img1) errorsObj.img1 = "Preview image is required";
 
     if (isNaN(price)) errorsObj.price = "Please input a number value";
 
     if (!lettersOnly(country))
       errorsObj.country = "Please input a valid country";
 
-    if (!usStates.includes(state))
-      errorsObj.state = "Please enter a valid US State or Territory";
+    if (!usStates.includes(state.toUpperCase()))
+      errorsObj.state =
+        "Please enter a capitalized valid US State (i.e CA or HI)";
 
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 
-    if (
-      img1 &&
-      !img1.endsWith(".png") &&
-      !img1.endsWith(".jpg") &&
-      !img1.endsWith(".jpeg")
-    )
-      errorsObj.img1 = "Image URL must end in .png, .jpg, .jpeg";
+    if (description.length > 4800)
+      errorsObj.description = "Description must be less than 4800 characters";
 
-    if (
-      img2 &&
-      !img2.endsWith(".png") &&
-      !img2.endsWith(".jpg") &&
-      !img2.endsWith(".jpeg")
-    )
-      errorsObj.img2 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img3 &&
-      !img3.endsWith(".png") &&
-      !img3.endsWith(".jpg") &&
-      !img3.endsWith(".jpeg")
-    )
-      errorsObj.img3 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img4 &&
-      !img4.endsWith(".png") &&
-      !img4.endsWith(".jpg") &&
-      !img4.endsWith(".jpeg")
-    )
-      errorsObj.img4 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img5 &&
-      !img5.endsWith(".png") &&
-      !img5.endsWith(".jpg") &&
-      !img5.endsWith(".jpeg")
-    )
-      errorsObj.img5 = "Image URL must end in .png, .jpg, .jpeg";
+    if (!usStates.includes(state.toUpperCase()))
+      errorsObj.state =
+        "Please enter a capitalized valid US State (i.e CA or HI)";
+    if (name.length > 50)
+      errorsObj.name = "Name must be less than 50 characters";
+
     setErrors(errorsObj);
-  }, [
-    country,
-    address,
-    city,
-    state,
-    name,
-    price,
-    img1,
-    description,
-    img2,
-    img3,
-    img4,
-    img5,
-  ]);
+  }, [country, address, city, state, name, price, description]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -200,7 +149,7 @@ export default function UpdateSpot() {
       id: spot.id,
       address,
       city,
-      state,
+      state: state.toUpperCase(),
       country,
       lat: 37.76,
       lng: -122.47,
@@ -219,11 +168,6 @@ export default function UpdateSpot() {
     setState("");
     setName("");
     setPrice("");
-    setImg1("");
-    setImg2("");
-    setImg3("");
-    setImg4("");
-    setImg5("");
 
     if (spotUpdate) history.push(`/spots/${spotUpdate.id}`);
   };
