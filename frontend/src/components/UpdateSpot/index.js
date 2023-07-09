@@ -68,6 +68,11 @@ const lettersOnly = (word) => {
   return /^[A-Za-z\s]*$/.test(word);
 };
 
+const isValid = (str) => {
+  var regex = /^[a-zA-Z0-9\s]+$/;
+  return regex.test(str);
+};
+
 export default function UpdateSpot() {
   const {spotId} = useParams();
 
@@ -108,7 +113,13 @@ export default function UpdateSpot() {
     if (!name) errorsObj.name = "Name is required";
     if (!price) errorsObj.price = "Price is required";
 
+    if (!isValid(address)) errorsObj.address = "Please enter a valid address";
+
+    if (!lettersOnly(city)) errorsObj.city = "Please enter a valid city";
+
     if (isNaN(price)) errorsObj.price = "Please input a number value";
+
+    if (price < 0) errorsObj.price = "Price must be at least 0";
 
     if (!lettersOnly(country))
       errorsObj.country = "Please input a valid country";

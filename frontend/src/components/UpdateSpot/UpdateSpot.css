@@ -121,9 +121,10 @@
   box-shadow: 2px 2px black;
   background-color: #ff5a5f;
   margin-left: 11rem;
-  width: 8rem;
+  width: 10rem;
   height: 2rem;
   margin-bottom: 2rem;
+  font-size: 17px;
 }
 
 .money-div {
