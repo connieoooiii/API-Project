@@ -2,7 +2,8 @@ import {useDispatch} from "react-redux";
 import {useModal} from "../../context/Modal";
 import {deleteReviewThunk} from "../../store/reviewsReducer";
 import {getAllSpotReviewsThunk} from "../../store/reviewsReducer";
-import {getOneSpot, getOneSpotThunk} from "../../store/spotsReducer";
+import {getOneSpotThunk} from "../../store/spotsReducer";
+import "./DeleteReview.css";
 
 export default function DeleteReview({reviewId, spotId}) {
   const dispatch = useDispatch();
@@ -19,12 +20,16 @@ export default function DeleteReview({reviewId, spotId}) {
     closeModal();
   };
   return (
-    <div>
+    <div className="del-rev-wrap">
       <h2>Confirm Delete</h2>
       <p>Are you sure you want to delete this review?</p>
-      <div>
-        <button onClick={deleteHandler}>Yes (Delete Review)</button>
-        <button onClick={closeModal}>No (Keep Review)</button>
+      <div className="del-btns">
+        <button className="yes-del" onClick={deleteHandler}>
+          Yes (Delete Review)
+        </button>
+        <button className="no-del" onClick={closeModal}>
+          No (Keep Review)
+        </button>
       </div>
     </div>
   );

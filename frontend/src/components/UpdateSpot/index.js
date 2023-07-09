@@ -63,6 +63,10 @@ const usStates = [
 
 const fixedPrice = (price) => (+price).toFixed(2);
 
+const lettersOnly = (word) => {
+  return /^[A-Za-z\s]*$/.test(word);
+};
+
 export default function UpdateSpot() {
   const {spotId} = useParams();
 
@@ -116,6 +120,9 @@ export default function UpdateSpot() {
     if (!img1) errorsObj.img1 = "Preview image is required";
 
     if (isNaN(price)) errorsObj.price = "Please input a number value";
+
+    if (!lettersOnly(country))
+      errorsObj.country = "Please input a valid country";
 
     if (!usStates.includes(state))
       errorsObj.state = "Please enter a valid US State or Territory";

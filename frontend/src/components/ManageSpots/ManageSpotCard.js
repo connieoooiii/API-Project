@@ -15,7 +15,6 @@ export default function ManageSpotCard({spot}) {
         <img
           className="manage-img"
           src={spot.previewImage}
-          style={{height: "10rem"}}
         />
         <div className="card-info">
           <div className="location-rate">
