@@ -263,136 +263,183 @@ export default function CreateSpotForm() {
   return (
     <div className="wrapper-div">
       <form className="spot-form" onSubmit={handleSubmit}>
-        <div
-          style={{
-            border: "1px solid red",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
-          <h3>Create a new Spot</h3>
-          <div>Where's your place located?</div>
-          <p>
+        <div>
+          <h2 className="update-head">Create a new Spot</h2>
+          <div className="where">Where's your place located?</div>
+          <p className="guest">
             Guests will only get your exact address once they booked a
             reservation.
           </p>
         </div>
-        <label>Country</label>
-        {didSubmit && errors.country && <p>{errors.country}</p>}
-        <input
-          type="text"
-          placeholder="United States of America"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <label>Street Address</label>
-        {didSubmit && errors.address && <p>{errors.address}</p>}
-        <input
-          type="text"
-          placeholder="123 Main Street"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <div style={{border: "1px solid red"}}>
-          <label>City</label>
-          {didSubmit && errors.city && <p>{errors.city}</p>}
+
+        <div className="country">
+          <label>Country</label>
+
           <input
+            className="count-input"
             type="text"
-            placeholder="San Francisco"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <label>State</label>
-          {didSubmit && errors.state && <p>{errors.state}</p>}
-          <input
-            type="text"
-            value={state}
-            placeholder="CA"
-            onChange={(e) => setState(e.target.value)}
+            placeholder="United States of America"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
           />
         </div>
-        <div className="des-div" style={{border: "1px orange solid"}}>
-          <h4>Describe your place to Guests</h4>
-          <div>
+        {didSubmit && errors.country && (
+          <p className="sign-err">{errors.country}</p>
+        )}
+        <div className="street">
+          <label>Street Address</label>
+
+          <input
+            className="count-input"
+            type="text"
+            placeholder="123 Main Street"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        {didSubmit && errors.address && (
+          <p className="sign-err">{errors.address}</p>
+        )}
+        <div className="c-s">
+          <div className="city">
+            <label>City</label>
+
+            <input
+              className="c-input"
+              type="text"
+              placeholder="San Francisco"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            {didSubmit && errors.city && (
+              <p className="sign-err">{errors.city}</p>
+            )}
+          </div>
+
+          <div className="comma">,</div>
+          <div className="state">
+            <label>State</label>
+
+            <input
+              className="s-input"
+              type="text"
+              value={state}
+              placeholder="CA"
+              onChange={(e) => setState(e.target.value)}
+            />
+            {didSubmit && errors.state && (
+              <p className="sign-err">{errors.state}</p>
+            )}
+          </div>
+        </div>
+        <div className="des-div">
+          <div className="describe">Describe your place to Guests</div>
+          <div className="mention">
             Mention the best features of your space, any special amentities like
-            fast wifi or parking, and what you love about the neighborhood.
+            fast wifi or paking, and what you love about the neighborhood.
           </div>
           <textarea
+            className="des-area"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Please write at least 30 characters"
           />
-          {didSubmit && errors.description && <p>{errors.description}</p>}
+          {didSubmit && errors.description && (
+            <p className="sign-err">{errors.description}</p>
+          )}
         </div>
-        <div>
-          <h4>Create a title for your spot</h4>
-          <p>
-            Catch guests' attention with a spot title that highlights what makes
-            your place special.
-          </p>
+        <div className="name-div">
+          <div className="name-head">Create a title for your spot</div>
+          <div className="catch">
+            Catch guests' attention with a spot that highlights what makes your
+            place special.
+          </div>
           <input
+            className="name-input"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Name of your spot"
           />
-          {didSubmit && errors.name && <p>{errors.name}</p>}
+          {didSubmit && errors.name && (
+            <p className="sign-err">{errors.name}</p>
+          )}
         </div>
-        <div>
-          <h4>Set a base price for your spot</h4>
-          <p>
-            Competitive pricing can help your listing stand out and rank higher
-            in search results.
-          </p>
-          <span>$</span>
-          <input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Price per night (USD)"
-          />
-          {didSubmit && errors.price && <p>{errors.price}</p>}
+        <div className="money-div">
+          <div className="name-head">Set a base price for your spot</div>
+          <div className="catch">
+            Competitive pricing can help your list stand out and rank higher in
+            search results
+          </div>
+          <div className="money">
+            <div className="cash">$</div>
+            <input
+              className="price-input"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price per night (USD)"
+            />
+          </div>
+          {didSubmit && errors.price && (
+            <p className="sign-err">{errors.price}</p>
+          )}
         </div>
-        <div>
-          <h4>Liven up your spot with photos</h4>
-          <p>Submit a link to at least one photo to publish your spot.</p>
+        <div className="pics-wrap">
+          <div className="name-head">Liven up your spot with photos</div>
+          <div className="catch">
+            Submit a link to at least one photo to publish your spot.
+          </div>
           <div className="img-input-div">
             <input
+              className="pic-input"
               type="url"
               value={img1}
               onChange={(e) => setImg1(e.target.value)}
               placeholder="Preview Image URL"
             />
-            {didSubmit && errors.img1 && <p>{errors.img1}</p>}
+            {didSubmit && errors.img1 && (
+              <p className="sign-err">{errors.img1}</p>
+            )}
             <input
+              className="pic-input"
               type="url"
               value={img2}
               onChange={(e) => setImg2(e.target.value)}
               placeholder="Image URL"
             />
-            {didSubmit && errors.img2 && <p>{errors.img2}</p>}
+            {didSubmit && errors.img2 && (
+              <p className="sign-err">{errors.img2}</p>
+            )}
             <input
+              className="pic-input"
               type="url"
               value={img3}
               onChange={(e) => setImg3(e.target.value)}
               placeholder="Image URL"
             />
-            {didSubmit && errors.img3 && <p>{errors.img3}</p>}
+            {didSubmit && errors.img3 && (
+              <p className="sign-err">{errors.img3}</p>
+            )}
             <input
+              className="pic-input"
               type="url"
               value={img4}
               onChange={(e) => setImg4(e.target.value)}
               placeholder="Image URL"
             />
-            {didSubmit && errors.img4 && <p>{errors.img4}</p>}
+            {didSubmit && errors.img4 && (
+              <p className="sign-err">{errors.img4}</p>
+            )}
             <input
+              className="pic-input"
               type="url"
               value={img5}
               onChange={(e) => setImg5(e.target.value)}
               placeholder="Image URL"
             />
-            {didSubmit && errors.img5 && <p>{errors.img5}</p>}
+            {didSubmit && errors.img5 && (
+              <p className="sign-err">{errors.img5}</p>
+            )}
           </div>
         </div>
         <button className="spot-button" type="submit">
