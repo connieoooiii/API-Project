@@ -36,7 +36,7 @@ export default function ManageSpots() {
 
   return (
     <div className="parent-div">
-      <h2>Manage Your Spots</h2>
+      <h2 className="h-manage">Manage Your Spots</h2>
 
       <div className="wrapperdiv">
         {userSpots.map((spot) => (

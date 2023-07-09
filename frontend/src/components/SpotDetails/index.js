@@ -162,6 +162,9 @@ export default function SpotDetails() {
               buttonText="Post Your Review"
             />
           )}
+        {currUser && spot.numReviews == 0 ? (
+          <div className="first-post">Be the first to post a review!</div>
+        ) : null}
         <SpotReviews spotId={spotId} reviews={reviews} />
       </div>
     </div>

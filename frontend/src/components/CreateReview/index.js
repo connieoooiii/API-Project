@@ -18,7 +18,7 @@ export default function CreateReview({currUser, spotId}) {
   const [activeRating, setActiveRating] = useState(0);
   const [starsRating, setStarsRating] = useState();
   const [didSubmit, setDidSubmit] = useState(false);
-  //const [disableBtn, setDisableBtn] = useState(false);
+
 
   useEffect(() => {
     const errorsObj = {};
@@ -29,16 +29,7 @@ export default function CreateReview({currUser, spotId}) {
       errorsObj.starsRating = "Star rating must be at least 1";
 
     setErrors(errorsObj);
-    //setDisableBtn(true);
   }, [review, starsRating]);
-
-  //   const disableBtnFnc = () => {
-  //     if (Object.values(errors).length >0) {
-  //         setDisableBtn(true)
-  //     } else {
-
-  //     }
-  //   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
