@@ -20,14 +20,12 @@ export default function ManageSpots() {
     dispatch(getUserSpotsThunk());
   }, [dispatch]);
 
-  console.log("this is userSpots.length", !userSpots.length > 0);
-
   if (!userSpots.length) {
     // history.push("/");
     return (
-      <div>
-        <h2>Manage Your Spots</h2>
-        <button onClick={() => history.push("/spots/new")}>
+      <div className="parent-div">
+        <h2 className="h-manage">Manage Your Spots</h2>
+        <button className="m-create" onClick={() => history.push("/spots/new")}>
           Create a New Spot
         </button>
       </div>
@@ -42,13 +40,18 @@ export default function ManageSpots() {
         {userSpots.map((spot) => (
           <div key={spot.id}>
             <ManageSpotCard spot={spot} />
-            <button onClick={() => history.push(`/spots/${spot.id}/edit`)}>
-              Update
-            </button>
-            <OpenModalButton
-              modalComponent={<DeleteSpot spotId={spot.id} />}
-              buttonText="Delete"
-            />
+            <div className="the-btns">
+              <button
+                className="up-btn"
+                onClick={() => history.push(`/spots/${spot.id}/edit`)}
+              >
+                Update
+              </button>
+              <OpenModalButton
+                modalComponent={<DeleteSpot spotId={spot.id} />}
+                buttonText="Delete"
+              />
+            </div>
           </div>
         ))}
       </div>
