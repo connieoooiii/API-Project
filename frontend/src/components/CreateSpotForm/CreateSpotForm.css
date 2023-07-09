@@ -23,7 +23,6 @@
   padding-left: 2rem;
   margin-left: 15rem;
   margin-right: 15rem;
-  border: 1px solid blue;
 }
 
 .wrapper-div {
@@ -33,5 +32,4 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   align-items: center;
-  border: 1px solid green;
 }
