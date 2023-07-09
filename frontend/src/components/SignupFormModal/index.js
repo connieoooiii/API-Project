@@ -73,7 +73,7 @@ function SignupFormModal() {
 
   return (
     <div className="sign-up-wrap" style={{borderRadius: "10%"}}>
-      <h1>Sign Up</h1>
+      <h1 className="sign-header">Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <input
           className="form-input"
