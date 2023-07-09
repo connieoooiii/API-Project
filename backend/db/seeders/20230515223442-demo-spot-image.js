@@ -13,7 +13,7 @@ const images = [
   },
   {
     spotId: 2,
-    url: "https://media.bizj.us/view/img/10969364/common*1024xx3600-2030-0-314.jpg",
+    url: "https://seattlecondosandlofts.com/wp-content/uploads/2021/08/Emerald-Condo-5-1024x768.jpg",
     preview: true,
   },
   {
