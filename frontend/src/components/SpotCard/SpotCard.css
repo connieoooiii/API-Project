@@ -3,7 +3,7 @@
   object-fit: cover;
 }
 
-.spot-card-wrap > a:visited {
+.spot-card-wrap > a {
   text-decoration: none;
   color: black;
 }

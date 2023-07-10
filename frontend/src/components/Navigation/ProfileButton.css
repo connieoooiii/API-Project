@@ -1,6 +1,6 @@
 .hidden {
   display: none;
-  position: absolute;
+  /* position: absolute; */
 }
 
 .profile-wrap {
@@ -14,7 +14,7 @@
   margin-right: 1rem;
 }
 
-.create-spot-nav > a:visited {
+.create-spot-nav > a {
   color: teal;
 }
 
@@ -41,12 +41,14 @@
 .profile-dropdown {
   border: black solid 2px;
   background: white;
-  border-radius: 5%;
-  margin-left: 3rem;
-  margin-top: 10rem;
-  margin-right: 4rem;
-  z-index: 3;
-  position: relative;
+  border-radius: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 2.3rem;
+  right: 15px;
+  z-index: 1;
 }
 
 .hello > a {
@@ -55,7 +57,7 @@
 }
 .hello {
   margin-top: 0.5rem;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid grey;
 }
 
 .bye {
