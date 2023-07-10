@@ -77,8 +77,8 @@
 }
 
 .mo-links {
-  margin-left: none;
-  /* margin-right: 2rem; */
+  margin-right: 2rem;
+  margin-left: 2rem;
   cursor: pointer;
   margin-top: 0.3rem;
   margin-bottom: 0.2rem;
