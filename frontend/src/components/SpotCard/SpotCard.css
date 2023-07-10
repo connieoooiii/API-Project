@@ -3,6 +3,11 @@
   object-fit: cover;
 }
 
+.spot-card-wrap > a:visited {
+  text-decoration: none;
+  color: black;
+}
+
 .card-preview-img {
   border-radius: 10%;
   width: 100%;

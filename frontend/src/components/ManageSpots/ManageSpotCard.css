@@ -3,6 +3,10 @@
   height: 80%;
 }
 
+.manage-card-wrap > a {
+  color: black;
+}
+
 .manage-img {
   border-radius: 10%;
   width: 100%;
@@ -10,3 +14,7 @@
   object-fit: cover;
   box-shadow: 4px 3px 3px lightgray;
 }
+
+/* .fa-star {
+  color: yellow;
+} */
