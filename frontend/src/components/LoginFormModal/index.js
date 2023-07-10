@@ -3,9 +3,11 @@ import * as sessionActions from "../../store/session";
 import {useDispatch} from "react-redux";
 import {useModal} from "../../context/Modal";
 import "./LoginForm.css";
+import {useHistory} from "react-router-dom/cjs/react-router-dom.min";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [didSubmit, setDidSubmit] = useState(false);
@@ -31,6 +33,7 @@ function LoginFormModal() {
 
     return dispatch(sessionActions.login({credential, password}))
       .then(closeModal)
+      .then(history.push("/"))
       .catch(async (res) => {
         const data = await res.json();
         const errObj = {};
@@ -48,9 +51,9 @@ function LoginFormModal() {
     const credential = "FakeUser5";
     const password = "password5";
 
-    return dispatch(sessionActions.login({credential, password})).then(
-      closeModal
-    );
+    dispatch(sessionActions.login({credential, password}));
+    closeModal();
+    history.push("/");
   };
 
   const disabled = password.length < 6 || credential.length < 4 ? true : null;
