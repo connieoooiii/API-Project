@@ -1,5 +1,4 @@
 .des-div {
-  border: 1px solid orange;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -23,7 +22,6 @@
   padding-left: 2rem;
   margin-left: 15rem;
   margin-right: 15rem;
-  border: 1px solid blue;
 }
 
 .wrapper-div {
@@ -33,5 +31,17 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   align-items: center;
-  border: 1px solid green;
+}
+
+.pics-wrap {
+  border-top: 2px solid black;
+  width: 30rem;
+  margin-top: 1rem;
+}
+
+.pic-input {
+  background-color: rgb(221, 238, 253);
+  height: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
 }

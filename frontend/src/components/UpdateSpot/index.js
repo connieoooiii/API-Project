@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router-dom/cjs/react-router-dom.min";
 import {getOneSpotThunk, updateSpotThunk} from "../../store/spotsReducer";
+import "./UpdateSpot.css";
 
 const usStates = [
   "AL",
@@ -67,6 +68,11 @@ const lettersOnly = (word) => {
   return /^[A-Za-z\s]*$/.test(word);
 };
 
+const isValid = (str) => {
+  var regex = /^[a-zA-Z0-9\s]+$/;
+  return regex.test(str);
+};
+
 export default function UpdateSpot() {
   const {spotId} = useParams();
 
@@ -82,11 +88,6 @@ export default function UpdateSpot() {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [img1, setImg1] = useState("");
-  const [img2, setImg2] = useState("");
-  const [img3, setImg3] = useState("");
-  const [img4, setImg4] = useState("");
-  const [img5, setImg5] = useState("");
   const [errors, setErrors] = useState({});
   const [didSubmit, setDidSubmit] = useState(false);
 
@@ -99,12 +100,6 @@ export default function UpdateSpot() {
       setDescription(spot.description);
       setName(spot.name);
       setPrice(spot.price);
-      setImg1(spot.SpotImages[0].url);
-      console.log("SPOTIMAGES ARRAY", spot.SpotImages);
-      spot.SpotImages[1] && setImg2(spot.SpotImages[1].url);
-      spot.SpotImages[2] && setImg3(spot.SpotImages[2].url);
-      spot.SpotImages[3] && setImg4(spot.SpotImages[3].url);
-      spot.SpotImages[4] && setImg5(spot.SpotImages[4].url);
     });
   }, [dispatch, spotId]);
 
@@ -117,70 +112,36 @@ export default function UpdateSpot() {
     if (!state) errorsObj.state = "State is required";
     if (!name) errorsObj.name = "Name is required";
     if (!price) errorsObj.price = "Price is required";
-    if (!img1) errorsObj.img1 = "Preview image is required";
+
+    if (!isValid(address)) errorsObj.address = "Please enter a valid address";
+
+    if (!lettersOnly(city)) errorsObj.city = "Please enter a valid city";
 
     if (isNaN(price)) errorsObj.price = "Please input a number value";
+
+    if (price < 0) errorsObj.price = "Price must be at least 0";
 
     if (!lettersOnly(country))
       errorsObj.country = "Please input a valid country";
 
-    if (!usStates.includes(state))
-      errorsObj.state = "Please enter a valid US State or Territory";
+    if (!usStates.includes(state.toUpperCase()))
+      errorsObj.state =
+        "Please enter a capitalized valid US State (i.e CA or HI)";
 
     if (description.length < 30)
       errorsObj.description = "Description needs a minimum of 30 characters";
 
-    if (
-      img1 &&
-      !img1.endsWith(".png") &&
-      !img1.endsWith(".jpg") &&
-      !img1.endsWith(".jpeg")
-    )
-      errorsObj.img1 = "Image URL must end in .png, .jpg, .jpeg";
+    if (description.length > 4800)
+      errorsObj.description = "Description must be less than 4800 characters";
 
-    if (
-      img2 &&
-      !img2.endsWith(".png") &&
-      !img2.endsWith(".jpg") &&
-      !img2.endsWith(".jpeg")
-    )
-      errorsObj.img2 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img3 &&
-      !img3.endsWith(".png") &&
-      !img3.endsWith(".jpg") &&
-      !img3.endsWith(".jpeg")
-    )
-      errorsObj.img3 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img4 &&
-      !img4.endsWith(".png") &&
-      !img4.endsWith(".jpg") &&
-      !img4.endsWith(".jpeg")
-    )
-      errorsObj.img4 = "Image URL must end in .png, .jpg, .jpeg";
-    if (
-      img5 &&
-      !img5.endsWith(".png") &&
-      !img5.endsWith(".jpg") &&
-      !img5.endsWith(".jpeg")
-    )
-      errorsObj.img5 = "Image URL must end in .png, .jpg, .jpeg";
+    if (!usStates.includes(state.toUpperCase()))
+      errorsObj.state =
+        "Please enter a capitalized valid US State (i.e CA or HI)";
+    if (name.length > 50)
+      errorsObj.name = "Name must be less than 50 characters";
+
     setErrors(errorsObj);
-  }, [
-    country,
-    address,
-    city,
-    state,
-    name,
-    price,
-    img1,
-    description,
-    img2,
-    img3,
-    img4,
-    img5,
-  ]);
+  }, [country, address, city, state, name, price, description]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -200,7 +161,7 @@ export default function UpdateSpot() {
       id: spot.id,
       address,
       city,
-      state,
+      state: state.toUpperCase(),
       country,
       lat: 37.76,
       lng: -122.47,
@@ -219,11 +180,6 @@ export default function UpdateSpot() {
     setState("");
     setName("");
     setPrice("");
-    setImg1("");
-    setImg2("");
-    setImg3("");
-    setImg4("");
-    setImg5("");
 
     if (spotUpdate) history.push(`/spots/${spotUpdate.id}`);
   };
@@ -231,101 +187,132 @@ export default function UpdateSpot() {
   return (
     <div className="wrapper-div">
       <form className="spot-form" onSubmit={handleSubmit}>
-        <div
-          style={{
-            border: "1px solid red",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
-          <h3>Update your Spot</h3>
-          <div>Where's your place located?</div>
-          <p>
+        <div>
+          <h2 className="update-head">Update your Spot</h2>
+          <div className="where">Where's your place located?</div>
+          <p className="guest">
             Guests will only get your exact address once they booked a
             reservation.
           </p>
         </div>
-        <label>Country</label>
-        {didSubmit && errors.country && <p>{errors.country}</p>}
-        <input
-          type="text"
-          placeholder="United States of America"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <label>Street Address</label>
-        {didSubmit && errors.address && <p>{errors.address}</p>}
-        <input
-          type="text"
-          placeholder="123 Main Street"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <div style={{border: "1px solid red"}}>
-          <label>City</label>
-          {didSubmit && errors.city && <p>{errors.city}</p>}
+        <div className="country">
+          <label>Country</label>
+
           <input
+            className="count-input"
             type="text"
-            placeholder="San Francisco"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <label>State</label>
-          {didSubmit && errors.state && <p>{errors.state}</p>}
-          <input
-            type="text"
-            value={state}
-            placeholder="CA"
-            onChange={(e) => setState(e.target.value)}
+            placeholder="United States of America"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
           />
         </div>
-        <div className="des-div" style={{border: "1px orange solid"}}>
-          <h4>Describe your place to Guests</h4>
-          <div>
+        {didSubmit && errors.country && (
+          <p className="sign-err">{errors.country}</p>
+        )}
+        <div className="street">
+          <label>Street Address</label>
+
+          <input
+            className="count-input"
+            type="text"
+            placeholder="123 Main Street"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        {didSubmit && errors.address && (
+          <p className="sign-err">{errors.address}</p>
+        )}
+        <div className="c-s">
+          <div className="city">
+            <label>City</label>
+
+            <input
+              className="c-input"
+              type="text"
+              placeholder="San Francisco"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            {didSubmit && errors.city && (
+              <p className="sign-err">{errors.city}</p>
+            )}
+          </div>
+
+          <div className="comma">,</div>
+          <div className="state">
+            <label>State</label>
+
+            <input
+              className="s-input"
+              type="text"
+              value={state}
+              placeholder="CA"
+              onChange={(e) => setState(e.target.value)}
+            />
+            {didSubmit && errors.state && (
+              <p className="sign-err">{errors.state}</p>
+            )}
+          </div>
+        </div>
+        <div className="des-div">
+          <div className="describe">Describe your place to Guests</div>
+          <div className="mention">
             Mention the best features of your space, any special amentities like
             fast wifi or paking, and what you love about the neighborhood.
           </div>
           <textarea
+            className="des-area"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Please write at least 30 characters"
           />
-          {didSubmit && errors.description && <p>{errors.description}</p>}
+          {didSubmit && errors.description && (
+            <p className="sign-err">{errors.description}</p>
+          )}
         </div>
-        <div>
-          <h4>Create a title for your spot</h4>
-          <p>
+        <div className="name-div">
+          <div className="name-head">Create a title for your spot</div>
+          <div className="catch">
             Catch guests' attention with a spot that highlights what makes your
             place special.
-          </p>
+          </div>
           <input
+            className="name-input"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Name of your spot"
           />
-          {didSubmit && errors.name && <p>{errors.name}</p>}
+          {didSubmit && errors.name && (
+            <p className="sign-err">{errors.name}</p>
+          )}
         </div>
-        <div>
-          <h4>Set a base price for your spot</h4>
-          <p>
+        <div className="money-div">
+          <div className="name-head">Set a base price for your spot</div>
+          <div className="catch">
             Competitive pricing can help your list stand out and rank higher in
             search results
-          </p>
-          <span>$</span>
-          <input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Price per night (USD)"
-          />
-          {didSubmit && errors.price && <p>{errors.price}</p>}
+          </div>
+          <div className="money">
+            <div className="cash">$</div>
+            <input
+              className="price-input"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price per night (USD)"
+            />
+          </div>
+          {didSubmit && errors.price && (
+            <p className="sign-err">{errors.price}</p>
+          )}
         </div>
-
-        <button className="spot-button" type="submit">
-          Update Your Spot
-        </button>
+        <div className="line"></div>
+        <div className="update-btn">
+          <button className="spot-button" type="submit">
+            Update Your Spot
+          </button>
+        </div>
       </form>
     </div>
   );

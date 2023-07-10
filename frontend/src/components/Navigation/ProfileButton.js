@@ -49,29 +49,28 @@ function ProfileButton({user}) {
       <div className="create-spot-nav">
         {user && <Link to="/spots/new">Create a New Spot</Link>}
       </div>
-      <button className="profile-button" onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="p-s" onClick={openMenu}>
+        <i id="lines " className="fa-solid fa-bars"></i>
+        <i id="u-icon" className="fa-solid fa-user"></i>
       </button>
 
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className="ul-div">
-            <li>Hello, {user.firstName}</li>
-            <li>
-              {user.firstName} {user.lastName}
+            <li className="hello">
+              Hello, {user.firstName}
+              <div className="yo-email"> {user.email}</div>
             </li>
-            <li>{user.email}</li>
-            <li>
-              <div>
-                <Link to="/spots/current">Manage Spots</Link>
-              </div>
+
+            <li className="hello">
+              <Link to="/spots/current">Manage Spots</Link>
             </li>
-            <li>
+            <li className="bye">
               <button onClick={logout}>Log Out</button>
             </li>
           </div>
         ) : (
-          <>
+          <div className="ul-div">
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
@@ -82,7 +81,7 @@ function ProfileButton({user}) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
+          </div>
         )}
       </ul>
     </div>

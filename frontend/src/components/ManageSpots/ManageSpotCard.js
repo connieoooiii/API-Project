@@ -12,10 +12,9 @@ export default function ManageSpotCard({spot}) {
       {console.log(spot)}
       {/* <div className="tool-tip">{spot.name}</div> */}
       <Link to={`/spots/${spot.id}`}>
-        <img
-          className="manage-img"
-          src={spot.previewImage}
-        />
+        <div className="tooltip" data-tooltip={spot.name}>
+          <img className="manage-img" src={spot.previewImage} />
+        </div>
         <div className="card-info">
           <div className="location-rate">
             <div>

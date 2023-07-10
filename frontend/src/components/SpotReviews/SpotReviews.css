@@ -1,0 +1,35 @@
+.gona-wrap {
+  margin-left: 1rem;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+.person {
+  font-size: 18px;
+  font-weight: 550;
+}
+
+.wee {
+  margin-bottom: 2rem;
+}
+
+.mon-yr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.yee {
+  margin-right: 0.5rem;
+}
+
+.my-del > button {
+  cursor: pointer;
+  border: 1px solid black;
+  color: white;
+  box-shadow: 2px 2px black;
+  background-color: gray;
+  margin-top: 1rem;
+  width: 5rem;
+}

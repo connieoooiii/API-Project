@@ -3,10 +3,15 @@
   object-fit: cover;
 }
 
+.spot-card-wrap > a:visited {
+  text-decoration: none;
+  color: black;
+}
+
 .card-preview-img {
   border-radius: 10%;
   width: 100%;
-  height: 70%;
+  height: 13rem;
   object-fit: cover;
   box-shadow: 4px 3px 3px lightgray;
 }
@@ -26,18 +31,28 @@
 .price {
   margin-top: 0.5rem;
 }
-/* .tooltip {
+
+.tooltip {
   position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-} */
+  cursor: pointer;
+}
 
-/* .tooltiptext {
-
-  width: 120px;
-  background-color: black;
-  color: #fff;
+.tooltip::before {
+  color: #ffffff;
+  background-color: gray;
+  font-size: 12px;
+  font-weight: 500;
+  position: absolute;
+  display: none;
   text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-} */
+  width: 75%;
+  margin-top: 4rem;
+  margin-left: 1rem;
+  padding: 8px;
+  border-radius: 10%;
+  content: attr(data-tooltip);
+}
+
+.tooltip:hover::before {
+  display: inline-block;
+}

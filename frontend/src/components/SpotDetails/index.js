@@ -40,10 +40,10 @@ export default function SpotDetails() {
   }
 
   return (
-    <div>
+    <div className="details-wrap">
       <div>
         <h1>{spot.name}</h1>
-        <div>
+        <div className="loc">
           Location: {spot.city}, {spot.state}, {spot.country}
         </div>
         <div className="img-container">
@@ -56,38 +56,38 @@ export default function SpotDetails() {
           </div>
           <div className="side-imgs">
             <img
-              className="side-preview"
+              className="on-side"
               src={
                 spot.SpotImages[1]
                   ? spot.SpotImages[1].url
-                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+                  : "https://leadingestates.com/wp-content/uploads/2015/11/185-64-laguna-beach-01.jpg"
               }
               alt="img 2"
             />
             <img
-              className="side-preview"
+              className="on-side"
               src={
                 spot.SpotImages[2]
                   ? spot.SpotImages[2].url
-                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+                  : "https://leadingestates.com/wp-content/uploads/2015/11/185-64-laguna-beach-01.jpg"
               }
               alt="img 3"
             />
             <img
-              className="side-preview"
+              className="on-side"
               src={
                 spot.SpotImages[3]
                   ? spot.SpotImages[3].url
-                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+                  : "https://leadingestates.com/wp-content/uploads/2015/11/185-64-laguna-beach-01.jpg"
               }
               alt="img 4"
             />
             <img
-              className="side-preview"
+              className="on-side"
               src={
                 spot.SpotImages[4]
                   ? spot.SpotImages[4].url
-                  : "https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-cloud-icon-png-image_1576641.jpg"
+                  : "https://leadingestates.com/wp-content/uploads/2015/11/185-64-laguna-beach-01.jpg"
               }
               alt="img 5"
             />
@@ -96,7 +96,7 @@ export default function SpotDetails() {
       </div>
       <div className="info-wrap">
         <div className="name-descr-wrap">
-          <div>
+          <div className="host">
             Hosted by{" "}
             {spot.Owner ? (
               <span>
@@ -108,60 +108,67 @@ export default function SpotDetails() {
         </div>
         <div className="reserve-box">
           <div className="price-reviews">
-            <div>
+            <div className="night-price">
               ${spot.price} <span>night</span>
             </div>
-
-            <div>
-              <i className="fa-solid fa-star"></i>
-              {spot.avgStarRating}
-              {spot.avgStarRating ? <span>&#8226;</span> : ""}
+            <div className="s-r">
+              <div>
+                <i className="fa-solid fa-star"></i>
+                {spot.avgStarRating}
+                {spot.avgStarRating ? <span className="dot">&#8226;</span> : ""}
+              </div>
+              <div>
+                {spot.numReviews === 0 ? "New" : ""}
+                {spot.numReviews === 1 ? (
+                  <span>{spot.numReviews} Review</span>
+                ) : (
+                  ""
+                )}
+                {spot.numReviews > 1 ? (
+                  <span>{spot.numReviews} Reviews</span>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-            <div>
-              {spot.numReviews === 0 ? "New" : ""}
-              {spot.numReviews === 1 ? (
-                <span>{spot.numReviews} Review</span>
-              ) : (
-                ""
-              )}
-              {spot.numReviews > 1 ? (
-                <span>{spot.numReviews} Reviews</span>
-              ) : (
-                ""
-              )}
-            </div>
-
-            <div></div>
           </div>
-          <button onClick={() => alert("Feature Coming Soon...")}>
+          <button
+            className="rev-book"
+            onClick={() => alert("Feature Coming Soon...")}
+          >
             Reserve
           </button>
         </div>
       </div>
       <div>
-        <div style={{display: "flex"}}>
-          <h2 style={{display: "flex"}}>
+        <div className="r-wrap">
+          <div>
             <i className="fa-solid fa-star"></i>
             {spot.avgStarRating}
-            {spot.avgStarRating ? <div>&#8226;</div> : ""}
-          </h2>
-          <h2>
+            {spot.avgStarRating ? <span className="dot">&#8226;</span> : ""}
+          </div>
+          <div>
             {spot.numReviews === 0 ? "New" : ""}
             {spot.numReviews === 1 ? <span>{spot.numReviews} Review</span> : ""}
             {spot.numReviews > 1 ? <span>{spot.numReviews} Reviews</span> : ""}
-          </h2>
+          </div>
+        </div>
+        <div className="p-rev">
+          {currUser &&
+            currUser.id !== spot.ownerId &&
+            !reviewUsers.includes(currUser.id) && (
+              <OpenModalButton
+                modalComponent={
+                  <CreateReview currUser={currUser.id} spotId={spotId} />
+                }
+                buttonText="Post Your Review"
+              />
+            )}
         </div>
 
-        {currUser &&
-          currUser.id !== spot.ownerId &&
-          !reviewUsers.includes(currUser.id) && (
-            <OpenModalButton
-              modalComponent={
-                <CreateReview currUser={currUser.id} spotId={spotId} />
-              }
-              buttonText="Post Your Review"
-            />
-          )}
+        {currUser && spot.numReviews == 0 ? (
+          <div className="first-post">Be the first to post a review!</div>
+        ) : null}
         <SpotReviews spotId={spotId} reviews={reviews} />
       </div>
     </div>

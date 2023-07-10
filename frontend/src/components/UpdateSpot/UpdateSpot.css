@@ -1,0 +1,134 @@
+.where {
+  margin-bottom: 0.5rem;
+  font-size: large;
+  font-weight: bold;
+}
+.guest {
+  margin-top: 0rem;
+  font-weight: 500;
+}
+.update-head {
+  margin-bottom: 1rem;
+}
+.country {
+  display: flex;
+  flex-direction: column;
+}
+.count-input {
+  width: 30rem;
+  margin-bottom: 1rem;
+  background-color: rgb(221, 238, 253);
+  height: 1.5rem;
+}
+.street {
+  display: flex;
+  flex-direction: column;
+}
+
+.c-s {
+  display: flex;
+  flex-direction: row;
+}
+
+.city {
+  display: flex;
+  flex-direction: column;
+}
+
+.c-input {
+  background-color: rgb(221, 238, 253);
+  width: 17rem;
+  height: 1.5rem;
+}
+
+.comma {
+  margin-top: 1.5rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+.state {
+  display: flex;
+  flex-direction: column;
+}
+.s-input {
+  background-color: rgb(221, 238, 253);
+  width: 11.7rem;
+  height: 1.5rem;
+}
+
+.describe {
+  font-size: large;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.des-div {
+  margin-top: 1.5rem;
+  border-top: 2px solid black;
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
+  margin-bottom: 1.5rem;
+}
+.mention {
+  margin-bottom: 1rem;
+}
+.des-area {
+  width: 30rem;
+  background-color: rgb(221, 238, 253);
+  height: 10rem;
+  border: 2px solid black;
+}
+
+.name-head {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.name-div {
+  border-top: 2px solid black;
+  margin-bottom: 1.5rem;
+}
+.catch {
+  margin-bottom: 1rem;
+}
+
+.name-input {
+  width: 30rem;
+  background-color: rgb(221, 238, 253);
+  height: 1.5rem;
+}
+
+.price-input {
+  background-color: rgb(221, 238, 253);
+  height: 1.5rem;
+  width: 29rem;
+}
+.money {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+.cash {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.spot-button {
+  margin-top: 2rem;
+  color: white;
+  box-shadow: 2px 2px black;
+  background-color: #ff5a5f;
+  margin-left: 11rem;
+  width: 10rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+  font-size: 17px;
+}
+
+.money-div {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid black;
+}
