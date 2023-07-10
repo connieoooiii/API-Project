@@ -49,6 +49,8 @@
   top: 2.3rem;
   right: 15px;
   z-index: 1;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .hello > a {
@@ -76,7 +78,7 @@
 
 .mo-links {
   margin-left: none;
-  margin-right: 2rem;
+  /* margin-right: 2rem; */
   cursor: pointer;
   margin-top: 0.3rem;
   margin-bottom: 0.2rem;
