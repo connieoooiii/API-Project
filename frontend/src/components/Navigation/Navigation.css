@@ -34,7 +34,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 2rem;
+  /* margin-right: 2rem; */
   width: 100%;
   align-items: center;
 }
